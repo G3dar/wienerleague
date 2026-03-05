@@ -80,6 +80,86 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
   100% { left: 90%; }
 }
 
+/* Race leg animation */
+@keyframes legRun {
+  0% { transform: rotate(-25deg); }
+  50% { transform: rotate(25deg); }
+  100% { transform: rotate(-25deg); }
+}
+.race-running .dog-leg-front { animation: legRun 0.15s linear infinite; }
+.race-running .dog-leg-back { animation: legRun 0.15s linear infinite reverse; }
+
+/* Dust cloud */
+@keyframes dustPuff {
+  0% { opacity: 0.8; transform: scale(0.5) translateX(0); }
+  100% { opacity: 0; transform: scale(2) translateX(-30px); }
+}
+.dust-particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(254,250,224,0.3);
+  pointer-events: none;
+}
+
+/* Confetti */
+@keyframes confettiFall {
+  0% { transform: translateY(-10px) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(300px) rotate(720deg); opacity: 0; }
+}
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 0;
+  opacity: 0;
+}
+
+/* Countdown flash */
+@keyframes countdownPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+}
+
+/* Track shine */
+@keyframes trackShine {
+  0% { left: -30%; }
+  100% { left: 130%; }
+}
+
+/* Commentary bubble */
+@keyframes bubblePop {
+  0% { transform: scale(0) translateY(10px); opacity: 0; }
+  50% { transform: scale(1.1) translateY(-5px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes bubbleFade {
+  0% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Crowd wave */
+@keyframes crowdWave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.3); }
+}
+
+/* Winner celebration */
+@keyframes winnerBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-10px) rotate(-5deg); }
+  75% { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* Screen shake */
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 2px); }
+  50% { transform: translate(3px, -2px); }
+  75% { transform: translate(-2px, -3px); }
+}
+
 /* Countdown flip */
 .countdown-box {
   background: rgba(245,166,35,0.15);
@@ -664,59 +744,197 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
       </div>
     </div>
 
-    <!-- Race Animation -->
-    <div class="bg-charcoal/50 rounded-2xl p-8 border border-cream/10" data-aos="fade-up">
-      <h3 class="font-bangers text-2xl text-mustard text-center mb-6 tracking-wider">LIVE RACE SIMULATION</h3>
-      <div id="raceTrack" class="relative space-y-4">
-        <!-- Lane 1 -->
-        <div class="relative h-16 bg-stadium/30 rounded-lg overflow-hidden border border-cream/10">
-          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-cream/40">LANE 1</div>
-          <div class="absolute right-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-mustard/30"></div>
-          <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="1">
-            <svg class="w-16 h-10" viewBox="0 0 80 40" fill="#E63946">
-              <ellipse cx="50" cy="20" rx="20" ry="10"/><ellipse cx="25" cy="18" rx="12" ry="8"/><circle cx="14" cy="12" r="7"/>
-              <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
-              <rect x="20" y="26" width="3" height="9" rx="1.5"/><rect x="32" y="26" width="3" height="9" rx="1.5"/>
-              <rect x="44" y="26" width="3" height="9" rx="1.5"/><rect x="56" y="26" width="3" height="9" rx="1.5"/>
-              <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
-            </svg>
-            <span class="absolute -top-5 left-0 font-bangers text-xs text-ketchup whitespace-nowrap">MEATBALL</span>
-          </div>
+    <!-- Race Animation - THE SPECTACULAR -->
+    <div id="raceArena" class="rounded-2xl overflow-hidden border-2 border-mustard/30 relative" data-aos="fade-up" style="background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 40%, #16213e 100%);">
+
+      <!-- Stadium lights -->
+      <div class="absolute top-0 left-0 w-full h-32 pointer-events-none" style="background: radial-gradient(ellipse at 20% 0%, rgba(245,166,35,0.15) 0%, transparent 50%), radial-gradient(ellipse at 50% 0%, rgba(245,166,35,0.2) 0%, transparent 50%), radial-gradient(ellipse at 80% 0%, rgba(245,166,35,0.15) 0%, transparent 50%);"></div>
+
+      <!-- Scoreboard header -->
+      <div class="relative bg-gradient-to-r from-charcoal via-ketchup/90 to-charcoal py-3 px-6 flex items-center justify-between border-b-2 border-mustard/40">
+        <div class="flex items-center gap-3">
+          <div id="liveIndicator" class="w-3 h-3 rounded-full bg-red-500 opacity-0"></div>
+          <span class="font-bebas text-xl text-cream tracking-wider">WEINER LEAGUE LIVE</span>
         </div>
-        <!-- Lane 2 -->
-        <div class="relative h-16 bg-stadium/30 rounded-lg overflow-hidden border border-cream/10">
-          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-cream/40">LANE 2</div>
-          <div class="absolute right-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-mustard/30"></div>
-          <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="2">
-            <svg class="w-16 h-10" viewBox="0 0 80 40" fill="#F5A623">
-              <ellipse cx="50" cy="20" rx="20" ry="10"/><ellipse cx="25" cy="18" rx="12" ry="8"/><circle cx="14" cy="12" r="7"/>
-              <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
-              <rect x="20" y="26" width="3" height="9" rx="1.5"/><rect x="32" y="26" width="3" height="9" rx="1.5"/>
-              <rect x="44" y="26" width="3" height="9" rx="1.5"/><rect x="56" y="26" width="3" height="9" rx="1.5"/>
-              <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
-            </svg>
-            <span class="absolute -top-5 left-0 font-bangers text-xs text-mustard whitespace-nowrap">SPAGHETTI</span>
-          </div>
+        <div class="font-bebas text-lg text-mustard tracking-wider hidden md:block">SEASON 6 - CHAMPIONSHIP DASH</div>
+        <div id="raceTimer" class="font-bebas text-2xl text-mustard tracking-wider">0.00s</div>
+      </div>
+
+      <!-- Crowd section -->
+      <div id="crowdSection" class="relative h-12 overflow-hidden bg-gradient-to-b from-charcoal/80 to-transparent">
+        <div class="flex justify-around items-end h-full px-4">
+          <span class="crowd-person text-lg" style="animation-delay: 0s;">&#129489;</span>
+          <span class="crowd-person text-lg" style="animation-delay: 0.1s;">&#128588;</span>
+          <span class="crowd-person text-lg" style="animation-delay: 0.2s;">&#129489;</span>
+          <span class="crowd-person text-lg" style="animation-delay: 0.05s;">&#128075;</span>
+          <span class="crowd-person text-lg" style="animation-delay: 0.3s;">&#129489;</span>
+          <span class="crowd-person text-lg" style="animation-delay: 0.15s;">&#128588;</span>
+          <span class="crowd-person text-lg" style="animation-delay: 0.25s;">&#129489;</span>
+          <span class="crowd-person text-lg hidden sm:inline" style="animation-delay: 0.08s;">&#128075;</span>
+          <span class="crowd-person text-lg hidden sm:inline" style="animation-delay: 0.18s;">&#129489;</span>
+          <span class="crowd-person text-lg hidden sm:inline" style="animation-delay: 0.12s;">&#128588;</span>
+          <span class="crowd-person text-lg hidden md:inline" style="animation-delay: 0.22s;">&#129489;</span>
+          <span class="crowd-person text-lg hidden md:inline" style="animation-delay: 0.06s;">&#128075;</span>
+          <span class="crowd-person text-lg hidden md:inline" style="animation-delay: 0.28s;">&#129489;</span>
+          <span class="crowd-person text-lg hidden md:inline" style="animation-delay: 0.16s;">&#128588;</span>
+          <span class="crowd-person text-lg hidden lg:inline" style="animation-delay: 0.09s;">&#129489;</span>
+          <span class="crowd-person text-lg hidden lg:inline" style="animation-delay: 0.2s;">&#128075;</span>
+          <span class="crowd-person text-lg hidden lg:inline" style="animation-delay: 0.14s;">&#129489;</span>
+          <span class="crowd-person text-lg hidden lg:inline" style="animation-delay: 0.26s;">&#128588;</span>
         </div>
-        <!-- Lane 3 -->
-        <div class="relative h-16 bg-stadium/30 rounded-lg overflow-hidden border border-cream/10">
-          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-cream/40">LANE 3</div>
-          <div class="absolute right-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-mustard/30"></div>
-          <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="3">
-            <svg class="w-16 h-10" viewBox="0 0 80 40" fill="#8B6914">
-              <ellipse cx="50" cy="20" rx="20" ry="10"/><ellipse cx="25" cy="18" rx="12" ry="8"/><circle cx="14" cy="12" r="7"/>
-              <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
-              <rect x="20" y="26" width="3" height="9" rx="1.5"/><rect x="32" y="26" width="3" height="9" rx="1.5"/>
-              <rect x="44" y="26" width="3" height="9" rx="1.5"/><rect x="56" y="26" width="3" height="9" rx="1.5"/>
-              <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
-            </svg>
-            <span class="absolute -top-5 left-0 font-bangers text-xs text-yellow-200 whitespace-nowrap">TURBO</span>
+        <!-- Crowd noise bar -->
+        <div id="crowdNoise" class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-stadium via-mustard to-ketchup origin-left transition-transform duration-300" style="transform: scaleX(0);"></div>
+      </div>
+
+      <!-- Commentary bubble area -->
+      <div id="commentary" class="relative h-10 flex items-center justify-center overflow-hidden">
+        <p id="commentaryText" class="font-bangers text-sm md:text-base text-mustard/80 tracking-wider text-center px-4 opacity-0 transition-all duration-500"></p>
+      </div>
+
+      <!-- Countdown overlay -->
+      <div id="raceCountdown" class="absolute inset-0 z-30 hidden flex items-center justify-center pointer-events-none" style="background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);">
+        <span id="countdownNum" class="font-bebas text-cream select-none" style="font-size: clamp(6rem, 20vw, 14rem); text-shadow: 0 0 60px rgba(245,166,35,0.8);"></span>
+      </div>
+
+      <!-- THE TRACK -->
+      <div class="px-4 md:px-8 py-4">
+        <div id="raceTrack" class="relative space-y-3">
+          <!-- Start line -->
+          <div class="absolute left-[8%] top-0 bottom-0 w-0.5 border-l-2 border-dashed border-cream/20 z-10"></div>
+          <!-- Finish line -->
+          <div class="absolute right-[8%] top-0 bottom-0 w-3 z-10 overflow-hidden" style="background: repeating-linear-gradient(0deg, #fff 0px, #fff 6px, #1D1D1D 6px, #1D1D1D 12px); opacity: 0.6;"></div>
+          <div class="absolute right-[8%] top-0 z-20 font-bebas text-xs text-mustard/60 -translate-y-1">FINISH</div>
+
+          <!-- Lane 1 - Meatball -->
+          <div class="relative h-20 rounded-lg overflow-hidden race-lane" style="background: linear-gradient(90deg, rgba(230,57,70,0.1) 0%, rgba(230,57,70,0.05) 50%, rgba(230,57,70,0.15) 100%); border: 1px solid rgba(230,57,70,0.2);">
+            <!-- Track grass texture -->
+            <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(45,106,79,0.3) 20px, rgba(45,106,79,0.3) 40px);"></div>
+            <!-- Track shine -->
+            <div class="track-shine absolute top-0 h-full w-[30%] opacity-0" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);"></div>
+            <div class="absolute left-2 top-1 font-bebas text-xs text-ketchup/60 tracking-wider">LANE 1</div>
+            <!-- Odds -->
+            <div class="absolute right-[10%] top-1 font-bebas text-xs text-cream/30">3:1</div>
+            <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="1" data-name="MEATBALL" data-color="#E63946">
+              <div class="relative">
+                <!-- Dust trail -->
+                <div class="dust-trail absolute right-full top-1/2 -translate-y-1/2 w-16 h-8 pointer-events-none opacity-0"></div>
+                <svg class="w-20 h-12 drop-shadow-lg" viewBox="0 0 100 48" fill="none">
+                  <!-- body -->
+                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="#E63946"/>
+                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="url(#meatballShine)" opacity="0.3"/>
+                  <ellipse cx="32" cy="22" rx="14" ry="10" fill="#D42D3A"/>
+                  <!-- head -->
+                  <circle cx="16" cy="14" r="10" fill="#E63946"/>
+                  <circle cx="16" cy="14" r="10" fill="url(#meatballShine)" opacity="0.2"/>
+                  <!-- ear -->
+                  <ellipse cx="12" cy="8" rx="4" ry="7" fill="#C22836" transform="rotate(-15 12 8)"/>
+                  <!-- eye -->
+                  <circle cx="13" cy="12" r="2.5" fill="white"/>
+                  <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
+                  <circle cx="12" cy="11.5" r="0.5" fill="white"/>
+                  <!-- nose -->
+                  <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
+                  <!-- tongue (excited!) -->
+                  <path d="M9 18 Q10 22 12 21" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5"/>
+                  <!-- legs with animation classes -->
+                  <rect class="dog-leg-front" x="24" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 26px 30px;"/>
+                  <rect class="dog-leg-back" x="38" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 40px 30px;"/>
+                  <rect class="dog-leg-front" x="56" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 58px 30px;"/>
+                  <rect class="dog-leg-back" x="72" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 74px 30px;"/>
+                  <!-- tail -->
+                  <path d="M86 20 Q95 12 92 5" stroke="#E63946" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                  <!-- jersey number -->
+                  <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#1</text>
+                  <defs><radialGradient id="meatballShine"><stop offset="0%" stop-color="white"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
+                </svg>
+                <span class="absolute -top-6 left-0 font-bangers text-sm text-ketchup whitespace-nowrap drop-shadow-lg tracking-wider">MEATBALL</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lane 2 - Spaghetti -->
+          <div class="relative h-20 rounded-lg overflow-hidden race-lane" style="background: linear-gradient(90deg, rgba(245,166,35,0.1) 0%, rgba(245,166,35,0.05) 50%, rgba(245,166,35,0.15) 100%); border: 1px solid rgba(245,166,35,0.2);">
+            <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(45,106,79,0.3) 20px, rgba(45,106,79,0.3) 40px);"></div>
+            <div class="track-shine absolute top-0 h-full w-[30%] opacity-0" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);"></div>
+            <div class="absolute left-2 top-1 font-bebas text-xs text-mustard/60 tracking-wider">LANE 2</div>
+            <div class="absolute right-[10%] top-1 font-bebas text-xs text-cream/30">5:1</div>
+            <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="2" data-name="SPAGHETTI" data-color="#F5A623">
+              <div class="relative">
+                <div class="dust-trail absolute right-full top-1/2 -translate-y-1/2 w-16 h-8 pointer-events-none opacity-0"></div>
+                <svg class="w-20 h-12 drop-shadow-lg" viewBox="0 0 100 48" fill="none">
+                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="#F5A623"/>
+                  <ellipse cx="32" cy="22" rx="14" ry="10" fill="#E09620"/>
+                  <circle cx="16" cy="14" r="10" fill="#F5A623"/>
+                  <ellipse cx="12" cy="8" rx="4" ry="7" fill="#D4860F" transform="rotate(-15 12 8)"/>
+                  <circle cx="13" cy="12" r="2.5" fill="white"/>
+                  <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
+                  <circle cx="12" cy="11.5" r="0.5" fill="white"/>
+                  <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
+                  <path d="M9 18 Q10 22 12 21" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5"/>
+                  <rect class="dog-leg-front" x="24" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 26px 30px;"/>
+                  <rect class="dog-leg-back" x="38" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 40px 30px;"/>
+                  <rect class="dog-leg-front" x="56" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 58px 30px;"/>
+                  <rect class="dog-leg-back" x="72" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 74px 30px;"/>
+                  <path d="M86 20 Q95 12 92 5" stroke="#F5A623" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                  <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#4</text>
+                </svg>
+                <span class="absolute -top-6 left-0 font-bangers text-sm text-mustard whitespace-nowrap drop-shadow-lg tracking-wider">SPAGHETTI</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lane 3 - Turbo -->
+          <div class="relative h-20 rounded-lg overflow-hidden race-lane" style="background: linear-gradient(90deg, rgba(139,105,20,0.15) 0%, rgba(139,105,20,0.05) 50%, rgba(139,105,20,0.15) 100%); border: 1px solid rgba(139,105,20,0.3);">
+            <div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(45,106,79,0.3) 20px, rgba(45,106,79,0.3) 40px);"></div>
+            <div class="track-shine absolute top-0 h-full w-[30%] opacity-0" style="background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);"></div>
+            <div class="absolute left-2 top-1 font-bebas text-xs text-yellow-200/60 tracking-wider">LANE 3</div>
+            <div class="absolute right-[10%] top-1 font-bebas text-xs text-cream/30">2:1</div>
+            <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="3" data-name="TURBO" data-color="#C9A033">
+              <div class="relative">
+                <div class="dust-trail absolute right-full top-1/2 -translate-y-1/2 w-16 h-8 pointer-events-none opacity-0"></div>
+                <svg class="w-20 h-12 drop-shadow-lg" viewBox="0 0 100 48" fill="none">
+                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="#8B6914"/>
+                  <ellipse cx="32" cy="22" rx="14" ry="10" fill="#7A5C10"/>
+                  <circle cx="16" cy="14" r="10" fill="#8B6914"/>
+                  <ellipse cx="12" cy="8" rx="4" ry="7" fill="#6B500E" transform="rotate(-15 12 8)"/>
+                  <circle cx="13" cy="12" r="2.5" fill="white"/>
+                  <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
+                  <circle cx="12" cy="11.5" r="0.5" fill="white"/>
+                  <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
+                  <!-- Turbo has sunglasses because he's cool -->
+                  <rect x="9" y="10" width="8" height="4" rx="1" fill="#1D1D1D" opacity="0.7"/>
+                  <rect class="dog-leg-front" x="24" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 26px 30px;"/>
+                  <rect class="dog-leg-back" x="38" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 40px 30px;"/>
+                  <rect class="dog-leg-front" x="56" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 58px 30px;"/>
+                  <rect class="dog-leg-back" x="72" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 74px 30px;"/>
+                  <path d="M86 20 Q95 12 92 5" stroke="#8B6914" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+                  <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#5</text>
+                </svg>
+                <span class="absolute -top-6 left-0 font-bangers text-sm text-yellow-200 whitespace-nowrap drop-shadow-lg tracking-wider">TURBO</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="text-center mt-6">
-        <button id="raceBtn" class="bg-mustard text-charcoal font-bebas text-xl px-8 py-3 rounded-lg hover:bg-yellow-400 transition tracking-wider">START RACE!</button>
-        <p id="raceResult" class="font-bangers text-2xl text-mustard mt-4 hidden"></p>
+
+      <!-- Confetti container -->
+      <div id="confettiContainer" class="absolute inset-0 pointer-events-none z-20 overflow-hidden"></div>
+
+      <!-- Bottom controls & results -->
+      <div class="relative bg-gradient-to-r from-charcoal via-charcoal/95 to-charcoal py-5 px-6 border-t border-cream/10">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button id="raceBtn" class="relative bg-gradient-to-r from-ketchup to-red-700 text-white font-bebas text-2xl px-12 py-4 rounded-xl hover:from-red-600 hover:to-red-800 transition-all tracking-widest shadow-lg shadow-ketchup/30 hover:shadow-ketchup/50 hover:scale-105 active:scale-95 overflow-hidden group">
+            <span class="relative z-10 flex items-center gap-3">
+              <span id="raceBtnIcon">&#127939;</span>
+              <span id="raceBtnText">RELEASE THE WIENERS!</span>
+            </span>
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+          </button>
+        </div>
+        <div id="raceResult" class="text-center mt-4 hidden">
+          <p id="raceResultText" class="font-bebas text-4xl md:text-5xl text-mustard drop-shadow-lg"></p>
+          <p id="raceResultSub" class="font-bangers text-lg text-cream/60 tracking-wider mt-1"></p>
+        </div>
       </div>
     </div>
   </div>
@@ -1034,52 +1252,256 @@ const counterObserver = new IntersectionObserver((entries) => {
 
 counters.forEach(c => counterObserver.observe(c));
 
-// Race animation
+// ==================== SPECTACULAR RACE ENGINE ====================
 const raceBtn = document.getElementById('raceBtn');
+const raceBtnText = document.getElementById('raceBtnText');
+const raceBtnIcon = document.getElementById('raceBtnIcon');
 const raceResult = document.getElementById('raceResult');
+const raceResultText = document.getElementById('raceResultText');
+const raceResultSub = document.getElementById('raceResultSub');
 const raceDogs = document.querySelectorAll('.race-dog');
-const dogNames = ['MEATBALL', 'SPAGHETTI', 'TURBO'];
-let raceRunning = false;
+const raceArena = document.getElementById('raceArena');
+const raceTimer = document.getElementById('raceTimer');
+const liveIndicator = document.getElementById('liveIndicator');
+const commentaryText = document.getElementById('commentaryText');
+const crowdNoise = document.getElementById('crowdNoise');
+const confettiContainer = document.getElementById('confettiContainer');
+const raceCountdown = document.getElementById('raceCountdown');
+const countdownNum = document.getElementById('countdownNum');
 
-raceBtn.addEventListener('click', () => {
+const dogNames = ['MEATBALL', 'SPAGHETTI', 'TURBO'];
+const dogColors = ['#E63946', '#F5A623', '#C9A033'];
+let raceRunning = false;
+let timerInterval = null;
+
+const commentaryLines = {
+  prerace: [
+    '"Ladies and gentlemen... this is IT!"',
+    '"The tension is UNBEARABLE, Dee Dee!"',
+    '"I can feel the stadium SHAKING!"',
+    '"50 yards of glory await!"'
+  ],
+  midrace: [
+    '"THEY\'RE OFF! Look at those tiny legs GO!"',
+    '"OH! MEATBALL with an EXPLOSIVE start!"',
+    '"SPAGHETTI is FLOPPING to the lead!"',
+    '"TURBO is locked in. Pure FOCUS."',
+    '"This is ANYONE\'S race!"',
+    '"The crowd is going ABSOLUTELY BANANAS!"',
+    '"I\'ve never seen legs move that fast!"',
+    '"That\'s a GOOD BOY, Dee Dee!!"'
+  ],
+  finish: {
+    MEATBALL: ['"MEATBALL! THE PEOPLE\'S SAUSAGE DOES IT AGAIN!"', '"The celebration waddle is OUT! Incredible!"'],
+    SPAGHETTI: ['"SPAGHETTI JONES! THE NOODLE EXPRESS DELIVERS!"', '"That floppy running style is UNBEATABLE!"'],
+    TURBO: ['"TURBO BISCUIT! SILENT. DEADLY. VICTORIOUS."', '"He didn\'t even break a sweat. Ice cold."']
+  }
+};
+
+function showCommentary(text) {
+  commentaryText.style.opacity = '0';
+  commentaryText.style.transform = 'translateY(10px)';
+  setTimeout(() => {
+    commentaryText.textContent = text;
+    commentaryText.style.opacity = '1';
+    commentaryText.style.transform = 'translateY(0)';
+  }, 200);
+}
+
+function randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+function spawnConfetti() {
+  confettiContainer.innerHTML = '';
+  const colors = ['#F5A623', '#E63946', '#2D6A4F', '#FEFAE0', '#FF6B8A', '#FFD700'];
+  for (let i = 0; i < 80; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.left = Math.random() * 100 + '%';
+    piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+    piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    piece.style.width = (4 + Math.random() * 8) + 'px';
+    piece.style.height = (4 + Math.random() * 8) + 'px';
+    piece.style.animation = `confettiFall ${1.5 + Math.random() * 2}s ease-out ${Math.random() * 0.5}s forwards`;
+    confettiContainer.appendChild(piece);
+  }
+  setTimeout(() => { confettiContainer.innerHTML = ''; }, 4000);
+}
+
+function setCrowdEnergy(level) {
+  crowdNoise.style.transform = `scaleX(${level})`;
+  const crowd = document.querySelectorAll('.crowd-person');
+  crowd.forEach(p => {
+    if (level > 0.5) {
+      p.style.animation = `crowdWave ${0.3 + Math.random() * 0.3}s ease-in-out infinite`;
+      p.style.animationDelay = p.style.animationDelay || '0s';
+    } else {
+      p.style.animation = 'none';
+    }
+  });
+}
+
+function shakeScreen() {
+  raceArena.style.animation = 'screenShake 0.4s ease-in-out';
+  setTimeout(() => { raceArena.style.animation = ''; }, 400);
+}
+
+async function runCountdown() {
+  raceCountdown.classList.remove('hidden');
+  raceCountdown.style.display = 'flex';
+
+  const steps = ['3', '2', '1', 'GO!'];
+  for (let i = 0; i < steps.length; i++) {
+    countdownNum.textContent = steps[i];
+    countdownNum.style.animation = 'countdownPulse 0.8s ease-out';
+    countdownNum.style.color = i === 3 ? '#F5A623' : '#FEFAE0';
+    if (i < 3) {
+      setCrowdEnergy(0.3 + i * 0.2);
+      showCommentary(randomFrom(commentaryLines.prerace));
+    } else {
+      setCrowdEnergy(1);
+      shakeScreen();
+    }
+    await new Promise(r => setTimeout(r, 800));
+    countdownNum.style.animation = '';
+    await new Promise(r => setTimeout(r, 50));
+  }
+  await new Promise(r => setTimeout(r, 300));
+  raceCountdown.style.display = 'none';
+  raceCountdown.classList.add('hidden');
+}
+
+raceBtn.addEventListener('click', async () => {
   if (raceRunning) return;
   raceRunning = true;
   raceBtn.disabled = true;
-  raceBtn.textContent = 'RACING...';
+
+  // Reset
   raceResult.classList.add('hidden');
+  confettiContainer.innerHTML = '';
+  raceDogs.forEach(dog => {
+    dog.style.left = '5%';
+    dog.style.transition = 'none';
+    dog.closest('.race-lane').classList.remove('race-running');
+    dog.querySelector('.dust-trail').style.opacity = '0';
+  });
 
-  // Reset positions
-  raceDogs.forEach(dog => { dog.style.left = '5%'; dog.style.transition = 'none'; });
+  // Go LIVE
+  liveIndicator.style.opacity = '1';
+  liveIndicator.style.animation = 'countdownPulse 1s ease-in-out infinite';
+  raceBtnText.textContent = 'STAND BY...';
+  raceBtnIcon.textContent = '\u{1F4E1}';
+  raceTimer.textContent = '0.00s';
 
-  // Random speeds for each dog
-  const speeds = [
-    2 + Math.random() * 2,
-    2 + Math.random() * 2,
-    2 + Math.random() * 2
+  // COUNTDOWN
+  await runCountdown();
+
+  // START RACE!
+  raceBtnText.textContent = 'RACING...';
+  raceBtnIcon.textContent = '\u{1F525}';
+
+  // Activate running animations
+  raceDogs.forEach(dog => {
+    dog.closest('.race-lane').classList.add('race-running');
+    dog.querySelector('.dust-trail').style.opacity = '1';
+  });
+
+  // Track shine
+  document.querySelectorAll('.track-shine').forEach(shine => {
+    shine.style.opacity = '1';
+    shine.style.animation = 'trackShine 1.5s ease-in-out infinite';
+  });
+
+  // Random race durations (2-4 seconds)
+  const durations = [
+    2000 + Math.random() * 2000,
+    2000 + Math.random() * 2000,
+    2000 + Math.random() * 2000
   ];
 
-  // Assign random finish times
-  const durations = speeds.map(s => s * 1000);
+  // Timer
+  const startTime = Date.now();
+  timerInterval = setInterval(() => {
+    const elapsed = (Date.now() - startTime) / 1000;
+    raceTimer.textContent = elapsed.toFixed(2) + 's';
+  }, 50);
 
+  // Commentary during race
+  const commentaryInterval = setInterval(() => {
+    showCommentary(randomFrom(commentaryLines.midrace));
+  }, 1200);
+
+  // GO! Animate dogs with varied easing for drama
+  const easings = [
+    'cubic-bezier(0.1, 0.8, 0.3, 1)',
+    'cubic-bezier(0.3, 0.1, 0.2, 1)',
+    'cubic-bezier(0.05, 0.9, 0.4, 1)'
+  ];
+
+  raceDogs.forEach((dog, i) => {
+    dog.style.transition = `left ${durations[i]}ms ${easings[i]}`;
+    dog.style.left = '82%';
+  });
+
+  // Determine winner
+  const minDuration = Math.min(...durations);
+  const winnerIndex = durations.indexOf(minDuration);
+  const maxDuration = Math.max(...durations);
+  const winnerName = dogNames[winnerIndex];
+
+  // Photo finish tension - peak crowd at finish
+  setTimeout(() => { setCrowdEnergy(0.9); }, minDuration * 0.7);
+
+  // Winner crosses finish
   setTimeout(() => {
-    raceDogs.forEach((dog, i) => {
-      dog.style.transition = `left ${durations[i]}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
-      dog.style.left = '85%';
-    });
+    clearInterval(timerInterval);
+    clearInterval(commentaryInterval);
+    raceTimer.textContent = (minDuration / 1000).toFixed(2) + 's';
 
-    // Determine winner
-    const minDuration = Math.min(...durations);
-    const winnerIndex = durations.indexOf(minDuration);
-    const maxDuration = Math.max(...durations);
+    // Stop running animations
+    raceDogs.forEach(dog => {
+      dog.closest('.race-lane').classList.remove('race-running');
+      dog.querySelector('.dust-trail').style.opacity = '0';
+    });
+    document.querySelectorAll('.track-shine').forEach(s => { s.style.animation = ''; s.style.opacity = '0'; });
+
+    // WINNER CELEBRATION!
+    shakeScreen();
+    spawnConfetti();
+    setCrowdEnergy(1);
+
+    // Winner bounce
+    const winnerDog = raceDogs[winnerIndex];
+    winnerDog.style.animation = 'winnerBounce 0.5s ease-in-out 3';
+
+    // Highlight winner lane
+    winnerDog.closest('.race-lane').style.boxShadow = `0 0 30px ${dogColors[winnerIndex]}40, inset 0 0 30px ${dogColors[winnerIndex]}20`;
+
+    // Show result
+    const finishLines = commentaryLines.finish[winnerName];
+    showCommentary(finishLines[0]);
 
     setTimeout(() => {
-      raceResult.textContent = `${dogNames[winnerIndex]} WINS! 🏆`;
       raceResult.classList.remove('hidden');
-      raceBtn.textContent = 'RACE AGAIN!';
+      raceResultText.textContent = winnerName + ' WINS!';
+      raceResultText.style.color = dogColors[winnerIndex];
+      raceResultSub.textContent = `Official time: ${(minDuration / 1000).toFixed(2)}s | ${finishLines[1]}`;
+
+      setTimeout(() => showCommentary(finishLines[1]), 1500);
+    }, 500);
+
+    // Cool down
+    setTimeout(() => {
+      setCrowdEnergy(0.3);
+      liveIndicator.style.animation = '';
+      liveIndicator.style.opacity = '0.5';
+      winnerDog.style.animation = '';
+      winnerDog.closest('.race-lane').style.boxShadow = '';
+      raceBtnText.textContent = 'RACE AGAIN!';
+      raceBtnIcon.textContent = '\u{1F3C6}';
       raceBtn.disabled = false;
       raceRunning = false;
-    }, maxDuration + 200);
-  }, 100);
+    }, 4000);
+  }, maxDuration + 200);
 });
 
 // Progress bar animation on scroll
