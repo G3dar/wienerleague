@@ -132,6 +132,10 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
 }
 .race-running .dog-ear { animation: earFlap 0.25s ease-in-out infinite; }
 
+/* Flip dogs to face right */
+.race-dog svg { transform: scaleX(-1); }
+.race-dog span { direction: ltr; }
+
 /* Footer dog animations */
 @keyframes footerLegRun {
   0% { transform: rotate(-30deg); }
@@ -157,6 +161,7 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
 .footer-dog .footer-head { animation: footerHeadBob 0.3s ease-in-out infinite; transform-origin: 20px 15px; }
 .footer-dog .footer-body { animation: footerBodyBounce 0.2s ease-in-out infinite; }
 .footer-dog .footer-tail { animation: footerTailWag 0.25s ease-in-out infinite; }
+.footer-dog svg { transform: scaleX(-1); }
 
 /* Dust cloud */
 @keyframes dustPuff {
@@ -1507,7 +1512,7 @@ raceBtn.addEventListener('click', async () => {
   const dogStates = raceDogs.length ? Array.from(raceDogs).map((dog, i) => ({
     el: dog,
     pos: START,
-    baseSpeed: 0.015 + Math.random() * 0.01,  // base speed per frame
+    baseSpeed: 0.03 + Math.random() * 0.02,  // base speed per frame
     burst: 0,        // burst timer
     stumble: 0,      // stumble timer (pause)
     distracted: 0,   // distraction timer (slow down or stop)
