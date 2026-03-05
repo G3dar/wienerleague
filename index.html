@@ -80,14 +80,83 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
   100% { left: 90%; }
 }
 
-/* Race leg animation */
-@keyframes legRun {
-  0% { transform: rotate(-25deg); }
-  50% { transform: rotate(25deg); }
-  100% { transform: rotate(-25deg); }
+/* Race leg animation - frantic tiny legs */
+@keyframes legRunFront {
+  0% { transform: rotate(-35deg); }
+  50% { transform: rotate(35deg); }
+  100% { transform: rotate(-35deg); }
 }
-.race-running .dog-leg-front { animation: legRun 0.15s linear infinite; }
-.race-running .dog-leg-back { animation: legRun 0.15s linear infinite reverse; }
+@keyframes legRunBack {
+  0% { transform: rotate(30deg); }
+  50% { transform: rotate(-30deg); }
+  100% { transform: rotate(30deg); }
+}
+.race-running .dog-leg-front { animation: legRunFront 0.1s linear infinite; }
+.race-running .dog-leg-back { animation: legRunBack 0.1s linear infinite; }
+
+/* Goofy head bobble */
+@keyframes headBobble {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  25% { transform: rotate(3deg) translateY(-2px); }
+  50% { transform: rotate(-3deg) translateY(1px); }
+  75% { transform: rotate(4deg) translateY(-1px); }
+}
+.race-running .dog-head { animation: headBobble 0.3s ease-in-out infinite; }
+
+/* Body bounce while running */
+@keyframes bodyBounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  30% { transform: translateY(-3px) rotate(-1.5deg); }
+  60% { transform: translateY(-2px) rotate(1.5deg); }
+}
+.race-running .dog-body-group { animation: bodyBounce 0.2s ease-in-out infinite; }
+
+/* Tail wag */
+@keyframes tailWagRace {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(25deg); }
+}
+.race-running .dog-tail { animation: tailWagRace 0.2s ease-in-out infinite; }
+
+/* Tongue flop */
+@keyframes tongueFlop {
+  0%, 100% { transform: rotate(0deg) scaleY(1); }
+  50% { transform: rotate(15deg) scaleY(1.3); }
+}
+.race-running .dog-tongue { animation: tongueFlop 0.15s ease-in-out infinite; }
+
+/* Ear flap */
+@keyframes earFlap {
+  0%, 100% { transform: rotate(-15deg) scaleY(1); }
+  50% { transform: rotate(-5deg) scaleY(0.85); }
+}
+.race-running .dog-ear { animation: earFlap 0.25s ease-in-out infinite; }
+
+/* Footer dog animations */
+@keyframes footerLegRun {
+  0% { transform: rotate(-30deg); }
+  50% { transform: rotate(30deg); }
+  100% { transform: rotate(-30deg); }
+}
+@keyframes footerHeadBob {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-2px) rotate(3deg); }
+}
+@keyframes footerTailWag {
+  0%, 100% { d: path("M70 16 Q78 5 76 0"); }
+  50% { d: path("M70 16 Q82 10 80 4"); }
+}
+@keyframes footerBodyBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.footer-dog .footer-leg-1 { animation: footerLegRun 0.12s linear infinite; transform-origin: 20px 26px; }
+.footer-dog .footer-leg-2 { animation: footerLegRun 0.12s linear infinite reverse; transform-origin: 32px 26px; }
+.footer-dog .footer-leg-3 { animation: footerLegRun 0.12s linear infinite 0.03s; transform-origin: 44px 26px; }
+.footer-dog .footer-leg-4 { animation: footerLegRun 0.12s linear infinite reverse 0.03s; transform-origin: 56px 26px; }
+.footer-dog .footer-head { animation: footerHeadBob 0.3s ease-in-out infinite; transform-origin: 20px 15px; }
+.footer-dog .footer-body { animation: footerBodyBounce 0.2s ease-in-out infinite; }
+.footer-dog .footer-tail { animation: footerTailWag 0.25s ease-in-out infinite; }
 
 /* Dust cloud */
 @keyframes dustPuff {
@@ -819,33 +888,30 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
                 <!-- Dust trail -->
                 <div class="dust-trail absolute right-full top-1/2 -translate-y-1/2 w-16 h-8 pointer-events-none opacity-0"></div>
                 <svg class="w-20 h-12 drop-shadow-lg" viewBox="0 0 100 48" fill="none">
-                  <!-- body -->
-                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="#E63946"/>
-                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="url(#meatballShine)" opacity="0.3"/>
-                  <ellipse cx="32" cy="22" rx="14" ry="10" fill="#D42D3A"/>
-                  <!-- head -->
-                  <circle cx="16" cy="14" r="10" fill="#E63946"/>
-                  <circle cx="16" cy="14" r="10" fill="url(#meatballShine)" opacity="0.2"/>
-                  <!-- ear -->
-                  <ellipse cx="12" cy="8" rx="4" ry="7" fill="#C22836" transform="rotate(-15 12 8)"/>
-                  <!-- eye -->
-                  <circle cx="13" cy="12" r="2.5" fill="white"/>
-                  <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
-                  <circle cx="12" cy="11.5" r="0.5" fill="white"/>
-                  <!-- nose -->
-                  <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
-                  <!-- tongue (excited!) -->
-                  <path d="M9 18 Q10 22 12 21" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5"/>
-                  <!-- legs with animation classes -->
+                  <g class="dog-body-group" style="transform-origin: 50px 24px;">
+                    <!-- body -->
+                    <ellipse cx="62" cy="24" rx="24" ry="12" fill="#E63946"/>
+                    <ellipse cx="32" cy="22" rx="14" ry="10" fill="#D42D3A"/>
+                    <!-- jersey -->
+                    <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#1</text>
+                    <!-- tail -->
+                    <path class="dog-tail" d="M86 20 Q95 12 92 5" stroke="#E63946" stroke-width="3.5" stroke-linecap="round" fill="none" style="transform-origin: 86px 20px;"/>
+                  </g>
+                  <!-- legs -->
                   <rect class="dog-leg-front" x="24" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 26px 30px;"/>
                   <rect class="dog-leg-back" x="38" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 40px 30px;"/>
                   <rect class="dog-leg-front" x="56" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 58px 30px;"/>
                   <rect class="dog-leg-back" x="72" y="30" width="4" height="13" rx="2" fill="#C22836" style="transform-origin: 74px 30px;"/>
-                  <!-- tail -->
-                  <path d="M86 20 Q95 12 92 5" stroke="#E63946" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-                  <!-- jersey number -->
-                  <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#1</text>
-                  <defs><radialGradient id="meatballShine"><stop offset="0%" stop-color="white"/><stop offset="100%" stop-color="transparent"/></radialGradient></defs>
+                  <!-- head -->
+                  <g class="dog-head" style="transform-origin: 20px 16px;">
+                    <circle cx="16" cy="14" r="10" fill="#E63946"/>
+                    <ellipse class="dog-ear" cx="12" cy="8" rx="4" ry="7" fill="#C22836" transform="rotate(-15 12 8)" style="transform-origin: 12px 8px;"/>
+                    <circle cx="13" cy="12" r="2.5" fill="white"/>
+                    <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
+                    <circle cx="12" cy="11.5" r="0.5" fill="white"/>
+                    <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
+                    <path class="dog-tongue" d="M9 18 Q10 23 13 22" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5" style="transform-origin: 9px 18px;"/>
+                  </g>
                 </svg>
                 <span class="absolute -top-6 left-0 font-bangers text-sm text-ketchup whitespace-nowrap drop-shadow-lg tracking-wider">MEATBALL</span>
               </div>
@@ -862,21 +928,25 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
               <div class="relative">
                 <div class="dust-trail absolute right-full top-1/2 -translate-y-1/2 w-16 h-8 pointer-events-none opacity-0"></div>
                 <svg class="w-20 h-12 drop-shadow-lg" viewBox="0 0 100 48" fill="none">
-                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="#F5A623"/>
-                  <ellipse cx="32" cy="22" rx="14" ry="10" fill="#E09620"/>
-                  <circle cx="16" cy="14" r="10" fill="#F5A623"/>
-                  <ellipse cx="12" cy="8" rx="4" ry="7" fill="#D4860F" transform="rotate(-15 12 8)"/>
-                  <circle cx="13" cy="12" r="2.5" fill="white"/>
-                  <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
-                  <circle cx="12" cy="11.5" r="0.5" fill="white"/>
-                  <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
-                  <path d="M9 18 Q10 22 12 21" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5"/>
+                  <g class="dog-body-group" style="transform-origin: 50px 24px;">
+                    <ellipse cx="62" cy="24" rx="24" ry="12" fill="#F5A623"/>
+                    <ellipse cx="32" cy="22" rx="14" ry="10" fill="#E09620"/>
+                    <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#4</text>
+                    <path class="dog-tail" d="M86 20 Q95 12 92 5" stroke="#F5A623" stroke-width="3.5" stroke-linecap="round" fill="none" style="transform-origin: 86px 20px;"/>
+                  </g>
                   <rect class="dog-leg-front" x="24" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 26px 30px;"/>
                   <rect class="dog-leg-back" x="38" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 40px 30px;"/>
                   <rect class="dog-leg-front" x="56" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 58px 30px;"/>
                   <rect class="dog-leg-back" x="72" y="30" width="4" height="13" rx="2" fill="#D4860F" style="transform-origin: 74px 30px;"/>
-                  <path d="M86 20 Q95 12 92 5" stroke="#F5A623" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-                  <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#4</text>
+                  <g class="dog-head" style="transform-origin: 20px 16px;">
+                    <circle cx="16" cy="14" r="10" fill="#F5A623"/>
+                    <ellipse class="dog-ear" cx="12" cy="8" rx="4" ry="7" fill="#D4860F" transform="rotate(-15 12 8)" style="transform-origin: 12px 8px;"/>
+                    <circle cx="13" cy="12" r="2.5" fill="white"/>
+                    <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
+                    <circle cx="12" cy="11.5" r="0.5" fill="white"/>
+                    <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
+                    <path class="dog-tongue" d="M9 18 Q10 23 13 22" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5" style="transform-origin: 9px 18px;"/>
+                  </g>
                 </svg>
                 <span class="absolute -top-6 left-0 font-bangers text-sm text-mustard whitespace-nowrap drop-shadow-lg tracking-wider">SPAGHETTI</span>
               </div>
@@ -893,22 +963,27 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
               <div class="relative">
                 <div class="dust-trail absolute right-full top-1/2 -translate-y-1/2 w-16 h-8 pointer-events-none opacity-0"></div>
                 <svg class="w-20 h-12 drop-shadow-lg" viewBox="0 0 100 48" fill="none">
-                  <ellipse cx="62" cy="24" rx="24" ry="12" fill="#8B6914"/>
-                  <ellipse cx="32" cy="22" rx="14" ry="10" fill="#7A5C10"/>
-                  <circle cx="16" cy="14" r="10" fill="#8B6914"/>
-                  <ellipse cx="12" cy="8" rx="4" ry="7" fill="#6B500E" transform="rotate(-15 12 8)"/>
-                  <circle cx="13" cy="12" r="2.5" fill="white"/>
-                  <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
-                  <circle cx="12" cy="11.5" r="0.5" fill="white"/>
-                  <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
-                  <!-- Turbo has sunglasses because he's cool -->
-                  <rect x="9" y="10" width="8" height="4" rx="1" fill="#1D1D1D" opacity="0.7"/>
+                  <g class="dog-body-group" style="transform-origin: 50px 24px;">
+                    <ellipse cx="62" cy="24" rx="24" ry="12" fill="#8B6914"/>
+                    <ellipse cx="32" cy="22" rx="14" ry="10" fill="#7A5C10"/>
+                    <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#5</text>
+                    <path class="dog-tail" d="M86 20 Q95 12 92 5" stroke="#8B6914" stroke-width="3.5" stroke-linecap="round" fill="none" style="transform-origin: 86px 20px;"/>
+                  </g>
                   <rect class="dog-leg-front" x="24" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 26px 30px;"/>
                   <rect class="dog-leg-back" x="38" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 40px 30px;"/>
                   <rect class="dog-leg-front" x="56" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 58px 30px;"/>
                   <rect class="dog-leg-back" x="72" y="30" width="4" height="13" rx="2" fill="#6B500E" style="transform-origin: 74px 30px;"/>
-                  <path d="M86 20 Q95 12 92 5" stroke="#8B6914" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-                  <text x="62" y="28" text-anchor="middle" fill="white" font-family="Bebas Neue" font-size="10" opacity="0.7">#5</text>
+                  <g class="dog-head" style="transform-origin: 20px 16px;">
+                    <circle cx="16" cy="14" r="10" fill="#8B6914"/>
+                    <ellipse class="dog-ear" cx="12" cy="8" rx="4" ry="7" fill="#6B500E" transform="rotate(-15 12 8)" style="transform-origin: 12px 8px;"/>
+                    <circle cx="13" cy="12" r="2.5" fill="white"/>
+                    <circle cx="12.5" cy="12" r="1.5" fill="#1D1D1D"/>
+                    <circle cx="12" cy="11.5" r="0.5" fill="white"/>
+                    <ellipse cx="8" cy="16" rx="2" ry="1.5" fill="#1D1D1D"/>
+                    <!-- sunglasses -->
+                    <rect x="9" y="10" width="9" height="4" rx="1" fill="#1D1D1D" opacity="0.8"/>
+                    <path class="dog-tongue" d="M9 18 Q10 22 12 21" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5" style="transform-origin: 9px 18px;"/>
+                  </g>
                 </svg>
                 <span class="absolute -top-6 left-0 font-bangers text-sm text-yellow-200 whitespace-nowrap drop-shadow-lg tracking-wider">TURBO</span>
               </div>
@@ -1148,19 +1223,32 @@ body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; ov
   </div>
 
   <!-- Running dachshund at bottom -->
-  <div class="relative h-12 mt-8">
+  <div class="relative h-16 mt-8">
     <div class="footer-dog absolute bottom-0">
-      <svg class="w-20 h-10" viewBox="0 0 80 40" fill="#F5A623">
-        <ellipse cx="50" cy="20" rx="20" ry="10"/>
-        <ellipse cx="25" cy="18" rx="12" ry="8"/>
-        <circle cx="14" cy="12" r="7"/>
-        <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
-        <rect x="20" y="26" width="3" height="9" rx="1.5"/>
-        <rect x="32" y="26" width="3" height="9" rx="1.5"/>
-        <rect x="44" y="26" width="3" height="9" rx="1.5"/>
-        <rect x="56" y="26" width="3" height="9" rx="1.5"/>
-        <path d="M70 16 Q78 10 76 4" stroke="#F5A623" stroke-width="3" stroke-linecap="round" fill="none"/>
-        <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
+      <svg class="w-24 h-14" viewBox="0 0 90 48" fill="none">
+        <!-- body group bounces -->
+        <g class="footer-body">
+          <ellipse cx="55" cy="24" rx="22" ry="11" fill="#F5A623"/>
+          <ellipse cx="30" cy="22" rx="13" ry="9" fill="#E09620"/>
+          <!-- tail wags -->
+          <path class="footer-tail" d="M77 20 Q85 10 83 4" stroke="#F5A623" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+        </g>
+        <!-- legs are frantic -->
+        <rect class="footer-leg-1" x="22" y="30" width="3.5" height="12" rx="1.75" fill="#D4860F"/>
+        <rect class="footer-leg-2" x="34" y="30" width="3.5" height="12" rx="1.75" fill="#D4860F"/>
+        <rect class="footer-leg-3" x="48" y="30" width="3.5" height="12" rx="1.75" fill="#D4860F"/>
+        <rect class="footer-leg-4" x="62" y="30" width="3.5" height="12" rx="1.75" fill="#D4860F"/>
+        <!-- head bobbles -->
+        <g class="footer-head">
+          <circle cx="16" cy="14" r="9" fill="#F5A623"/>
+          <ellipse cx="12" cy="8" rx="3.5" ry="6" fill="#D4860F" transform="rotate(-15 12 8)"/>
+          <circle cx="13" cy="12" r="2" fill="white"/>
+          <circle cx="12.5" cy="12" r="1.2" fill="#1D1D1D"/>
+          <circle cx="12" cy="11.5" r="0.4" fill="white"/>
+          <ellipse cx="8" cy="16" rx="1.8" ry="1.3" fill="#1D1D1D"/>
+          <!-- big happy tongue -->
+          <path d="M9 18 Q11 25 15 23" fill="#FF6B8A" stroke="#E05070" stroke-width="0.5"/>
+        </g>
       </svg>
     </div>
   </div>
@@ -1411,51 +1499,127 @@ raceBtn.addEventListener('click', async () => {
     shine.style.animation = 'trackShine 1.5s ease-in-out infinite';
   });
 
-  // Random race durations (2-4 seconds)
-  const durations = [
-    2000 + Math.random() * 2000,
-    2000 + Math.random() * 2000,
-    2000 + Math.random() * 2000
-  ];
+  // ---- GRADUAL JERKY RACE with requestAnimationFrame ----
+  const FINISH = 80; // finish line at 80%
+  const START = 5;
 
-  // Timer
+  // Each dog has position, base speed, and quirky behavior
+  const dogStates = raceDogs.length ? Array.from(raceDogs).map((dog, i) => ({
+    el: dog,
+    pos: START,
+    baseSpeed: 0.015 + Math.random() * 0.01,  // base speed per frame
+    burst: 0,        // burst timer
+    stumble: 0,      // stumble timer (pause)
+    distracted: 0,   // distraction timer (slow down or stop)
+    finished: false,
+    finishTime: 0
+  })) : [];
+
   const startTime = Date.now();
   timerInterval = setInterval(() => {
     const elapsed = (Date.now() - startTime) / 1000;
     raceTimer.textContent = elapsed.toFixed(2) + 's';
   }, 50);
 
-  // Commentary during race
   const commentaryInterval = setInterval(() => {
     showCommentary(randomFrom(commentaryLines.midrace));
-  }, 1200);
+  }, 1400);
 
-  // GO! Animate dogs with varied easing for drama
-  const easings = [
-    'cubic-bezier(0.1, 0.8, 0.3, 1)',
-    'cubic-bezier(0.3, 0.1, 0.2, 1)',
-    'cubic-bezier(0.05, 0.9, 0.4, 1)'
-  ];
-
-  raceDogs.forEach((dog, i) => {
-    dog.style.transition = `left ${durations[i]}ms ${easings[i]}`;
-    dog.style.left = '82%';
+  // Track shines
+  document.querySelectorAll('.track-shine').forEach(shine => {
+    shine.style.opacity = '1';
+    shine.style.animation = 'trackShine 1.5s ease-in-out infinite';
   });
 
-  // Determine winner
-  const minDuration = Math.min(...durations);
-  const winnerIndex = durations.indexOf(minDuration);
-  const maxDuration = Math.max(...durations);
-  const winnerName = dogNames[winnerIndex];
+  let raceFrameId = null;
+  let allFinished = false;
+  let winnerIndex = -1;
 
-  // Photo finish tension - peak crowd at finish
-  setTimeout(() => { setCrowdEnergy(0.9); }, minDuration * 0.7);
+  function raceFrame() {
+    if (allFinished) return;
 
-  // Winner crosses finish
-  setTimeout(() => {
+    let finishedCount = 0;
+    dogStates.forEach((ds, i) => {
+      if (ds.finished) { finishedCount++; return; }
+
+      // Random events each frame
+      const roll = Math.random();
+
+      // Stumble: dog trips and pauses briefly (3% chance per frame)
+      if (ds.stumble > 0) {
+        ds.stumble--;
+        ds.pos += ds.baseSpeed * 0.05; // barely move
+      }
+      // Distracted: dog slows way down, maybe looks at crowd (2% chance)
+      else if (ds.distracted > 0) {
+        ds.distracted--;
+        ds.pos += ds.baseSpeed * 0.2;
+      }
+      // Burst: sudden sprint! (5% chance)
+      else if (ds.burst > 0) {
+        ds.burst--;
+        ds.pos += ds.baseSpeed * 2.5;
+      }
+      // Normal running with wobble
+      else {
+        // Add natural speed variation (sometimes faster, sometimes slower)
+        const wobble = 0.5 + Math.random() * 1.2;
+        ds.pos += ds.baseSpeed * wobble;
+
+        // Trigger random events
+        if (roll < 0.02) {
+          ds.stumble = 15 + Math.floor(Math.random() * 20); // pause 15-35 frames
+        } else if (roll < 0.04) {
+          ds.distracted = 20 + Math.floor(Math.random() * 25);
+        } else if (roll < 0.09) {
+          ds.burst = 10 + Math.floor(Math.random() * 15);
+        }
+      }
+
+      // Near finish line? Dogs tend to get excited or distracted
+      if (ds.pos > FINISH * 0.7 && Math.random() < 0.03) {
+        ds.burst = 20; // final sprint!
+      }
+
+      // Check finish
+      if (ds.pos >= FINISH) {
+        ds.pos = FINISH;
+        ds.finished = true;
+        ds.finishTime = Date.now() - startTime;
+        if (winnerIndex === -1) {
+          winnerIndex = i;
+          setCrowdEnergy(1);
+          shakeScreen();
+        }
+        finishedCount++;
+      }
+
+      ds.el.style.left = ds.pos + '%';
+    });
+
+    // Crowd energy rises as dogs get closer
+    if (winnerIndex === -1) {
+      const maxPos = Math.max(...dogStates.map(d => d.pos));
+      setCrowdEnergy(0.3 + (maxPos / FINISH) * 0.6);
+    }
+
+    if (finishedCount === dogStates.length) {
+      allFinished = true;
+      onRaceFinish();
+      return;
+    }
+
+    raceFrameId = requestAnimationFrame(raceFrame);
+  }
+
+  raceFrameId = requestAnimationFrame(raceFrame);
+
+  function onRaceFinish() {
     clearInterval(timerInterval);
     clearInterval(commentaryInterval);
-    raceTimer.textContent = (minDuration / 1000).toFixed(2) + 's';
+    const winnerName = dogNames[winnerIndex];
+    const winTime = (dogStates[winnerIndex].finishTime / 1000).toFixed(2);
+    raceTimer.textContent = winTime + 's';
 
     // Stop running animations
     raceDogs.forEach(dog => {
@@ -1465,18 +1629,13 @@ raceBtn.addEventListener('click', async () => {
     document.querySelectorAll('.track-shine').forEach(s => { s.style.animation = ''; s.style.opacity = '0'; });
 
     // WINNER CELEBRATION!
-    shakeScreen();
     spawnConfetti();
-    setCrowdEnergy(1);
 
     // Winner bounce
     const winnerDog = raceDogs[winnerIndex];
     winnerDog.style.animation = 'winnerBounce 0.5s ease-in-out 3';
-
-    // Highlight winner lane
     winnerDog.closest('.race-lane').style.boxShadow = `0 0 30px ${dogColors[winnerIndex]}40, inset 0 0 30px ${dogColors[winnerIndex]}20`;
 
-    // Show result
     const finishLines = commentaryLines.finish[winnerName];
     showCommentary(finishLines[0]);
 
@@ -1484,8 +1643,7 @@ raceBtn.addEventListener('click', async () => {
       raceResult.classList.remove('hidden');
       raceResultText.textContent = winnerName + ' WINS!';
       raceResultText.style.color = dogColors[winnerIndex];
-      raceResultSub.textContent = `Official time: ${(minDuration / 1000).toFixed(2)}s | ${finishLines[1]}`;
-
+      raceResultSub.textContent = `Official time: ${winTime}s | ${finishLines[1]}`;
       setTimeout(() => showCommentary(finishLines[1]), 1500);
     }, 500);
 
