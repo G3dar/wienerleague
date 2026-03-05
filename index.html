@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Wiener League | Short Legs. Big Dreams.</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        mustard: '#F5A623',
+        ketchup: '#E63946',
+        stadium: '#2D6A4F',
+        charcoal: '#1D1D1D',
+        cream: '#FEFAE0',
+      },
+      fontFamily: {
+        bebas: ['Bebas Neue', 'sans-serif'],
+        bangers: ['Bangers', 'cursive'],
+        inter: ['Inter', 'sans-serif'],
+      }
+    }
+  }
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; background: #1D1D1D; color: #FEFAE0; overflow-x: hidden; }
+
+/* Racing Stripes */
+@keyframes stripeMove {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+.racing-stripe {
+  position: absolute;
+  height: 4px;
+  width: 120px;
+  opacity: 0.15;
+  animation: stripeMove linear infinite;
+}
+
+/* Parallax */
+.hero-bg { transition: transform 0.1s linear; }
+
+/* Ticker */
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.ticker-track { animation: tickerScroll 30s linear infinite; }
+.ticker-track:hover { animation-play-state: paused; }
+
+/* Running Dachshund */
+@keyframes runAcross {
+  0% { transform: translateX(-150px) scaleX(1); }
+  49.9% { transform: translateX(calc(100vw + 50px)) scaleX(1); }
+  50% { transform: translateX(calc(100vw + 50px)) scaleX(-1); }
+  100% { transform: translateX(-150px) scaleX(-1); }
+}
+.footer-dog { animation: runAcross 12s linear infinite; }
+
+/* Leg animation */
+@keyframes legWag {
+  0%, 100% { transform: rotate(-15deg); }
+  50% { transform: rotate(15deg); }
+}
+
+/* Race track animation */
+@keyframes raceRun {
+  0% { left: 0%; }
+  100% { left: 90%; }
+}
+
+/* Countdown flip */
+.countdown-box {
+  background: rgba(245,166,35,0.15);
+  border: 2px solid #F5A623;
+  backdrop-filter: blur(8px);
+}
+
+/* Card glow */
+.dog-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.dog-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(245,166,35,0.3);
+}
+
+/* Section divider */
+.section-divider {
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+}
+.section-divider-reverse {
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 70%);
+}
+
+/* Progress bar animation */
+@keyframes fillBar {
+  from { width: 0%; }
+}
+.progress-fill { animation: fillBar 1.5s ease-out forwards; }
+
+/* Nav active */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #F5A623;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+.nav-link:hover::after { width: 100%; }
+
+/* Sticky nav transition */
+.nav-scrolled {
+  background: rgba(29,29,29,0.95) !important;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+}
+
+/* Wave divider */
+.wave-divider svg { display: block; width: 100%; }
+
+/* CTA pulse */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(245,166,35,0.4); }
+  50% { box-shadow: 0 0 40px rgba(245,166,35,0.7); }
+}
+.cta-pulse { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #1D1D1D; }
+::-webkit-scrollbar-thumb { background: #F5A623; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<!-- ==================== NAVIGATION ==================== -->
+<nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300" style="background: transparent;">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#hero" class="flex items-center gap-3">
+      <!-- Dachshund silhouette SVG -->
+      <svg class="w-10 h-6" viewBox="0 0 80 40" fill="#F5A623">
+        <ellipse cx="55" cy="22" rx="22" ry="12"/>
+        <ellipse cx="28" cy="20" rx="14" ry="10"/>
+        <circle cx="15" cy="14" r="8"/>
+        <ellipse cx="12" cy="12" rx="3" ry="5" transform="rotate(-20 12 12)"/>
+        <rect x="22" y="28" width="4" height="10" rx="2"/>
+        <rect x="34" y="28" width="4" height="10" rx="2"/>
+        <rect x="50" y="28" width="4" height="10" rx="2"/>
+        <rect x="62" y="28" width="4" height="10" rx="2"/>
+        <ellipse cx="75" cy="18" rx="6" ry="2" transform="rotate(-30 75 18)"/>
+        <circle cx="12" cy="12" r="2" fill="#1D1D1D"/>
+      </svg>
+      <span class="font-bebas text-2xl tracking-wider text-mustard">THE WIENER LEAGUE</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about" class="nav-link text-cream/80 hover:text-mustard transition text-sm font-medium tracking-wide">ABOUT</a>
+      <a href="#athletes" class="nav-link text-cream/80 hover:text-mustard transition text-sm font-medium tracking-wide">ATHLETES</a>
+      <a href="#broadcast" class="nav-link text-cream/80 hover:text-mustard transition text-sm font-medium tracking-wide">BROADCAST</a>
+      <a href="#wienerdome" class="nav-link text-cream/80 hover:text-mustard transition text-sm font-medium tracking-wide">EVENTS</a>
+      <a href="#fans" class="nav-link text-cream/80 hover:text-mustard transition text-sm font-medium tracking-wide">FANS</a>
+      <a href="#partners" class="nav-link text-cream/80 hover:text-mustard transition text-sm font-medium tracking-wide">PARTNERS</a>
+      <a href="#tickets" class="bg-mustard text-charcoal font-bebas text-lg px-6 py-2 rounded hover:bg-yellow-400 transition tracking-wider">GET TICKETS</a>
+    </div>
+    <!-- Mobile menu button -->
+    <button id="menuBtn" class="md:hidden text-mustard text-3xl">&#9776;</button>
+  </div>
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-charcoal/95 backdrop-blur-lg px-6 pb-6">
+    <a href="#about" class="block py-3 text-cream/80 hover:text-mustard font-medium">ABOUT</a>
+    <a href="#athletes" class="block py-3 text-cream/80 hover:text-mustard font-medium">ATHLETES</a>
+    <a href="#broadcast" class="block py-3 text-cream/80 hover:text-mustard font-medium">BROADCAST</a>
+    <a href="#wienerdome" class="block py-3 text-cream/80 hover:text-mustard font-medium">EVENTS</a>
+    <a href="#fans" class="block py-3 text-cream/80 hover:text-mustard font-medium">FANS</a>
+    <a href="#partners" class="block py-3 text-cream/80 hover:text-mustard font-medium">PARTNERS</a>
+    <a href="#tickets" class="block py-3 text-mustard font-bebas text-xl">GET TICKETS</a>
+  </div>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background -->
+  <div class="hero-bg absolute inset-0" style="background: radial-gradient(ellipse at 50% 40%, rgba(245,166,35,0.15) 0%, rgba(29,29,29,1) 70%);"></div>
+
+  <!-- Racing stripes -->
+  <div class="racing-stripe bg-mustard" style="top:15%; animation-duration:3s; animation-delay:0s;"></div>
+  <div class="racing-stripe bg-ketchup" style="top:30%; animation-duration:4s; animation-delay:1s; width:80px;"></div>
+  <div class="racing-stripe bg-mustard" style="top:55%; animation-duration:2.5s; animation-delay:0.5s; width:150px;"></div>
+  <div class="racing-stripe bg-ketchup" style="top:70%; animation-duration:3.5s; animation-delay:2s; width:100px;"></div>
+  <div class="racing-stripe bg-mustard" style="top:85%; animation-duration:4.5s; animation-delay:1.5s; width:60px;"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-4">
+    <p class="font-bangers text-mustard text-xl md:text-2xl tracking-widest mb-4" data-aos="fade-down" data-aos-delay="200">WELCOME TO</p>
+    <h1 class="font-bebas text-cream leading-none mb-2" style="font-size: clamp(4rem, 12vw, 12rem);" data-aos="zoom-in" data-aos-duration="800">
+      SHORT LEGS.
+    </h1>
+    <h1 class="font-bebas text-mustard leading-none mb-8" style="font-size: clamp(4rem, 12vw, 12rem);" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+      BIG DREAMS.
+    </h1>
+
+    <!-- Running dachshund SVG -->
+    <div class="mb-8" data-aos="fade-up" data-aos-delay="600">
+      <svg class="mx-auto w-48 md:w-64 h-20" viewBox="0 0 200 60" fill="none">
+        <ellipse cx="120" cy="32" rx="35" ry="16" fill="#F5A623"/>
+        <ellipse cx="70" cy="28" rx="22" ry="14" fill="#E8951A"/>
+        <circle cx="48" cy="18" r="12" fill="#F5A623"/>
+        <ellipse cx="43" cy="14" rx="5" ry="8" fill="#E8951A" transform="rotate(-15 43 14)"/>
+        <circle cx="44" cy="16" r="3" fill="#1D1D1D"/>
+        <circle cx="44" cy="16" r="1.5" fill="white"/>
+        <ellipse cx="40" cy="24" rx="3" ry="2" fill="#1D1D1D"/>
+        <!-- legs with motion lines -->
+        <rect x="65" y="40" width="5" height="14" rx="2.5" fill="#D4860F" transform="rotate(-20 67 40)"/>
+        <rect x="85" y="40" width="5" height="14" rx="2.5" fill="#D4860F" transform="rotate(15 87 40)"/>
+        <rect x="115" y="40" width="5" height="14" rx="2.5" fill="#D4860F" transform="rotate(-15 117 40)"/>
+        <rect x="135" y="40" width="5" height="14" rx="2.5" fill="#D4860F" transform="rotate(20 137 40)"/>
+        <!-- tail -->
+        <path d="M155 28 Q170 15 165 8" stroke="#F5A623" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <!-- motion lines -->
+        <line x1="170" y1="25" x2="190" y2="25" stroke="#F5A623" stroke-width="2" opacity="0.4"/>
+        <line x1="175" y1="32" x2="195" y2="32" stroke="#F5A623" stroke-width="2" opacity="0.3"/>
+        <line x1="172" y1="38" x2="188" y2="38" stroke="#F5A623" stroke-width="2" opacity="0.2"/>
+      </svg>
+    </div>
+
+    <p class="font-inter text-cream/70 text-lg md:text-xl max-w-2xl mx-auto mb-10" data-aos="fade-up" data-aos-delay="400">
+      The world's premier dachshund racing league. Where athleticism meets absurdity, and every hot dog has its day.
+    </p>
+
+    <!-- Countdown -->
+    <div class="mb-10" data-aos="fade-up" data-aos-delay="600">
+      <p class="font-bangers text-ketchup text-lg tracking-wider mb-4">NEXT RACE DAY</p>
+      <div class="flex justify-center gap-4" id="countdown">
+        <div class="countdown-box rounded-lg px-4 py-3 min-w-[80px]">
+          <span id="cd-days" class="font-bebas text-4xl text-mustard block">00</span>
+          <span class="text-cream/50 text-xs font-medium">DAYS</span>
+        </div>
+        <div class="countdown-box rounded-lg px-4 py-3 min-w-[80px]">
+          <span id="cd-hours" class="font-bebas text-4xl text-mustard block">00</span>
+          <span class="text-cream/50 text-xs font-medium">HOURS</span>
+        </div>
+        <div class="countdown-box rounded-lg px-4 py-3 min-w-[80px]">
+          <span id="cd-mins" class="font-bebas text-4xl text-mustard block">00</span>
+          <span class="text-cream/50 text-xs font-medium">MINS</span>
+        </div>
+        <div class="countdown-box rounded-lg px-4 py-3 min-w-[80px]">
+          <span id="cd-secs" class="font-bebas text-4xl text-mustard block">00</span>
+          <span class="text-cream/50 text-xs font-medium">SECS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 justify-center" data-aos="fade-up" data-aos-delay="800">
+      <a href="#tickets" class="cta-pulse bg-mustard text-charcoal font-bebas text-2xl px-10 py-4 rounded-lg hover:bg-yellow-400 transition tracking-wider">GET TICKETS</a>
+      <a href="#about" class="border-2 border-cream/30 text-cream font-bebas text-2xl px-10 py-4 rounded-lg hover:border-mustard hover:text-mustard transition tracking-wider">LEARN MORE</a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <svg class="w-6 h-6 text-mustard/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Wave divider -->
+<div class="wave-divider bg-charcoal">
+  <svg viewBox="0 0 1440 80" preserveAspectRatio="none" style="height:80px;">
+    <path fill="#1D1D1D" d="M0,40 C360,80 720,0 1080,40 C1260,60 1380,50 1440,40 L1440,0 L0,0 Z"/>
+    <path fill="rgba(245,166,35,0.1)" d="M0,50 C480,90 960,10 1440,50 L1440,0 L0,0 Z"/>
+  </svg>
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<section id="about" class="py-24 bg-charcoal relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-2 gap-16 items-center">
+      <!-- Text -->
+      <div data-aos="fade-right">
+        <p class="font-bangers text-ketchup text-xl tracking-wider mb-2">EST. 2021</p>
+        <h2 class="font-bebas text-6xl md:text-8xl text-cream mb-6">ABOUT THE<br><span class="text-mustard">LEAGUE</span></h2>
+        <p class="text-cream/70 text-lg leading-relaxed mb-6">
+          The Wiener League is the world's most electrifying dachshund racing league. Born from the simple truth that nothing unites people quite like watching small dogs run really fast in a straight line.
+        </p>
+        <p class="text-cream/70 text-lg leading-relaxed mb-6">
+          Part sport. Part spectacle. All wiener. We've built a live entertainment empire around the most unlikely athletes on four (very short) legs. Our events combine the pageantry of professional sports with the unhinged joy of a county fair.
+        </p>
+        <p class="text-cream/70 text-lg leading-relaxed">
+          With sold-out events across 12 cities, a broadcast operation that rivals the big leagues, and a fan culture that borders on religious fervor -- the Wiener League isn't just a brand. It's a movement.
+        </p>
+      </div>
+
+      <!-- League Shield SVG -->
+      <div class="flex justify-center" data-aos="fade-left">
+        <svg class="w-72 md:w-96" viewBox="0 0 300 360" fill="none">
+          <!-- Shield shape -->
+          <path d="M150 10 L280 70 L280 220 Q280 310 150 350 Q20 310 20 220 L20 70 Z" fill="#1D1D1D" stroke="#F5A623" stroke-width="4"/>
+          <path d="M150 25 L268 80 L268 218 Q268 300 150 338 Q32 300 32 218 L32 80 Z" fill="none" stroke="#F5A623" stroke-width="1" opacity="0.3"/>
+          <!-- Inner decoration -->
+          <line x1="150" y1="80" x2="150" y2="310" stroke="#F5A623" stroke-width="2" opacity="0.3"/>
+          <line x1="50" y1="170" x2="250" y2="170" stroke="#F5A623" stroke-width="2" opacity="0.3"/>
+          <!-- Top banner -->
+          <text x="150" y="120" text-anchor="middle" fill="#F5A623" font-family="Bebas Neue" font-size="28">THE WIENER</text>
+          <text x="150" y="155" text-anchor="middle" fill="#FEFAE0" font-family="Bebas Neue" font-size="36">LEAGUE</text>
+          <!-- Dachshund silhouette in center -->
+          <g transform="translate(80,185) scale(0.9)">
+            <ellipse cx="90" cy="22" rx="30" ry="13" fill="#F5A623"/>
+            <ellipse cx="50" cy="19" rx="18" ry="11" fill="#F5A623"/>
+            <circle cx="32" cy="11" r="10" fill="#F5A623"/>
+            <ellipse cx="28" cy="7" rx="4" ry="7" fill="#E8951A" transform="rotate(-15 28 7)"/>
+            <rect x="42" y="30" width="4" height="11" rx="2" fill="#F5A623"/>
+            <rect x="58" y="30" width="4" height="11" rx="2" fill="#F5A623"/>
+            <rect x="82" y="30" width="4" height="11" rx="2" fill="#F5A623"/>
+            <rect x="100" y="30" width="4" height="11" rx="2" fill="#F5A623"/>
+            <path d="M120 18 Q132 8 130 2" stroke="#F5A623" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </g>
+          <!-- Stars -->
+          <text x="80" y="280" text-anchor="middle" fill="#F5A623" font-size="20">&#9733;</text>
+          <text x="150" y="295" text-anchor="middle" fill="#F5A623" font-size="20">&#9733;</text>
+          <text x="220" y="280" text-anchor="middle" fill="#F5A623" font-size="20">&#9733;</text>
+          <!-- Bottom text -->
+          <text x="150" y="325" text-anchor="middle" fill="#FEFAE0" font-family="Bangers" font-size="16" opacity="0.7">SHORT LEGS BIG DREAMS</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20" data-aos="fade-up">
+      <div class="text-center p-6 rounded-xl bg-cream/5 border border-cream/10">
+        <span class="font-bebas text-5xl md:text-6xl text-mustard counter" data-target="6">0</span>
+        <p class="font-bangers text-cream/60 text-lg mt-2 tracking-wider">SEASONS</p>
+      </div>
+      <div class="text-center p-6 rounded-xl bg-cream/5 border border-cream/10">
+        <span class="font-bebas text-5xl md:text-6xl text-mustard counter" data-target="32">0</span>
+        <p class="font-bangers text-cream/60 text-lg mt-2 tracking-wider">ATHLETES</p>
+      </div>
+      <div class="text-center p-6 rounded-xl bg-cream/5 border border-cream/10">
+        <span class="font-bebas text-5xl md:text-6xl text-mustard counter" data-target="12">0</span>
+        <p class="font-bangers text-cream/60 text-lg mt-2 tracking-wider">CITIES</p>
+      </div>
+      <div class="text-center p-6 rounded-xl bg-cream/5 border border-cream/10">
+        <span class="font-bebas text-5xl md:text-6xl text-mustard counter" data-target="1">0</span>
+        <p class="font-bangers text-cream/60 text-lg mt-2 tracking-wider">CHAMPION</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Diagonal divider -->
+<div class="h-20 bg-charcoal section-divider"></div>
+
+<!-- ==================== ATHLETES ==================== -->
+<section id="athletes" class="py-24 relative" style="background: linear-gradient(180deg, #1a1a1a 0%, #1D1D1D 100%);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="font-bangers text-ketchup text-xl tracking-wider mb-2" data-aos="fade-up">MEET THE ROSTER</p>
+      <h2 class="font-bebas text-6xl md:text-8xl text-cream" data-aos="fade-up" data-aos-delay="100">THE <span class="text-mustard">ATHLETES</span></h2>
+      <p class="text-cream/50 text-lg mt-4 max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="200">Six elite competitors. Thirty-two inches of pure determination. These aren't pets. They're professionals.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Meatball -->
+      <div class="dog-card rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #E63946 0%, #8B1A25 100%);" data-aos="fade-up" data-aos-delay="0">
+        <div class="p-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-4xl">&#127830;</span>
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">#01</span>
+          </div>
+          <h3 class="font-bebas text-5xl text-white mt-3">MEATBALL</h3>
+          <p class="font-bangers text-white/70 text-lg tracking-wider">"The People's Sausage"</p>
+          <p class="text-white/60 text-sm mt-3 mb-6">Fan favorite. Crowd screamer. Meatball doesn't just race -- he puts on a show. Known for his signature celebration waddle.</p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SPEED</span><span>92%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:92%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>DRAMA</span><span>98%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:98%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>FOCUS</span><span>45%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:45%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Princess Fanny -->
+      <div class="dog-card rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #7B2D8E 0%, #C9A037 100%);" data-aos="fade-up" data-aos-delay="100">
+        <div class="p-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-4xl">&#128081;</span>
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">#02</span>
+          </div>
+          <h3 class="font-bebas text-5xl text-white mt-3">PRINCESS FANNY</h3>
+          <p class="font-bangers text-white/70 text-lg tracking-wider">"The Diva of the Dash"</p>
+          <p class="text-white/60 text-sm mt-3 mb-6">Regal. Relentless. Refuses to run unless the crowd chants her name first. Three-time style champion and unapologetic about it.</p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SPEED</span><span>78%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:78%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>DRAMA</span><span>100%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:100%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>GLAMOUR</span><span>100%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ralphie the Rage -->
+      <div class="dog-card rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #E8751A 0%, #8B4513 100%);" data-aos="fade-up" data-aos-delay="200">
+        <div class="p-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-4xl">&#128293;</span>
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">#03</span>
+          </div>
+          <h3 class="font-bebas text-5xl text-white mt-3">RALPHIE THE RAGE</h3>
+          <p class="font-bangers text-white/70 text-lg tracking-wider">"Small Body. Big Fury."</p>
+          <p class="text-white/60 text-sm mt-3 mb-6">The bad boy of the league. Ralphie races angry and the crowd loves him for it. Has been known to bark at the finish line for 10 minutes straight.</p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SPEED</span><span>88%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:88%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>AGGRESSION</span><span>99%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:99%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>CHILL</span><span>5%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:5%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Spaghetti Jones -->
+      <div class="dog-card rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #F5A623 0%, #8B6914 100%);" data-aos="fade-up" data-aos-delay="300">
+        <div class="p-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-4xl">&#127837;</span>
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">#04</span>
+          </div>
+          <h3 class="font-bebas text-5xl text-white mt-3">SPAGHETTI JONES</h3>
+          <p class="font-bangers text-white/70 text-lg tracking-wider">"The Noodle Express"</p>
+          <p class="text-white/60 text-sm mt-3 mb-6">Long, floppy, and impossibly fast. Spaghetti's unorthodox running style confuses opponents and delights commentators. A true original.</p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SPEED</span><span>95%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:95%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>CHAOS</span><span>87%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:87%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>FLOPPINESS</span><span>100%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Turbo Biscuit -->
+      <div class="dog-card rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #8B6914 0%, #3E2C0A 100%);" data-aos="fade-up" data-aos-delay="400">
+        <div class="p-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-4xl">&#128168;</span>
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">#05</span>
+          </div>
+          <h3 class="font-bebas text-5xl text-white mt-3">TURBO BISCUIT</h3>
+          <p class="font-bangers text-white/70 text-lg tracking-wider">"The Silent Storm"</p>
+          <p class="text-white/60 text-sm mt-3 mb-6">Quiet off the track, lethal on it. Turbo doesn't bark, doesn't showboat. He just wins. The most decorated racer in league history.</p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SPEED</span><span>97%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:97%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>FOCUS</span><span>96%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:96%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SHOWMANSHIP</span><span>20%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:20%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lady Wigglesworth -->
+      <div class="dog-card rounded-2xl overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, #E8567A 0%, #8B2252 100%);" data-aos="fade-up" data-aos-delay="500">
+        <div class="p-8">
+          <div class="flex items-center gap-3 mb-1">
+            <span class="text-4xl">&#10024;</span>
+            <span class="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">#06</span>
+          </div>
+          <h3 class="font-bebas text-5xl text-white mt-3">LADY WIGGLESWORTH</h3>
+          <p class="font-bangers text-white/70 text-lg tracking-wider">"Wiggles to Victory"</p>
+          <p class="text-white/60 text-sm mt-3 mb-6">Don't let the adorable wiggle fool you. Lady W is a calculating competitor who uses her charm as psychological warfare against opponents.</p>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>SPEED</span><span>85%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:85%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>WIGGLE</span><span>100%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:100%"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs text-white/70 mb-1"><span>CUTENESS</span><span>100%</span></div>
+              <div class="h-2 bg-white/20 rounded-full"><div class="progress-fill h-2 bg-white rounded-full" style="width:100%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BROADCAST ==================== -->
+<section id="broadcast" class="py-24 bg-charcoal relative overflow-hidden">
+  <!-- Subtle grid pattern -->
+  <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(245,166,35,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,0.3) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-16">
+      <p class="font-bangers text-ketchup text-xl tracking-wider mb-2" data-aos="fade-up">ON AIR</p>
+      <h2 class="font-bebas text-6xl md:text-8xl text-cream" data-aos="fade-up" data-aos-delay="100">THE <span class="text-mustard">BROADCAST</span></h2>
+      <p class="text-cream/50 text-lg mt-4 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Professional commentary. Unprofessional athletes. Our broadcast team brings the gravitas of championship sports to 15-second dachshund dashes.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 mb-16">
+      <!-- Gus Bentley -->
+      <div class="flex gap-6 items-start bg-cream/5 rounded-2xl p-8 border border-cream/10" data-aos="fade-right">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-mustard to-ketchup flex items-center justify-center flex-shrink-0">
+          <svg class="w-14 h-14" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="14" fill="#FEFAE0"/>
+            <rect x="18" y="36" width="24" height="20" rx="4" fill="#2D6A4F"/>
+            <circle cx="25" cy="20" r="2" fill="#1D1D1D"/>
+            <circle cx="35" cy="20" r="2" fill="#1D1D1D"/>
+            <rect x="26" y="26" width="8" height="3" rx="1.5" fill="#E8951A"/>
+            <rect x="20" y="8" width="20" height="4" rx="2" fill="#1D1D1D"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-bebas text-3xl text-mustard">GUS BENTLEY</h3>
+          <p class="font-bangers text-cream/50 tracking-wider">PLAY-BY-PLAY</p>
+          <p class="text-cream/70 mt-3 text-sm leading-relaxed">The voice of the Wiener League. Gus brings 20 years of sports broadcasting experience to a 50-yard dachshund track. His dramatic calls have become legendary: "AND MEATBALL SURGES AHEAD WITH THE FURY OF A THOUSAND SUNS!"</p>
+        </div>
+      </div>
+
+      <!-- Dee Dee Hayworth -->
+      <div class="flex gap-6 items-start bg-cream/5 rounded-2xl p-8 border border-cream/10" data-aos="fade-left">
+        <div class="w-24 h-24 rounded-full bg-gradient-to-br from-ketchup to-purple-600 flex items-center justify-center flex-shrink-0">
+          <svg class="w-14 h-14" viewBox="0 0 60 60" fill="none">
+            <circle cx="30" cy="22" r="14" fill="#FEFAE0"/>
+            <path d="M16 18 Q18 6 30 8 Q42 6 44 18" fill="#1D1D1D"/>
+            <rect x="18" y="36" width="24" height="20" rx="4" fill="#E63946"/>
+            <circle cx="25" cy="20" r="2" fill="#1D1D1D"/>
+            <circle cx="35" cy="20" r="2" fill="#1D1D1D"/>
+            <path d="M25 27 Q30 31 35 27" stroke="#E8951A" stroke-width="2" fill="none"/>
+          </svg>
+        </div>
+        <div>
+          <h3 class="font-bebas text-3xl text-mustard">DEE DEE HAYWORTH</h3>
+          <p class="font-bangers text-cream/50 tracking-wider">COLOR COMMENTARY</p>
+          <p class="text-cream/70 mt-3 text-sm leading-relaxed">Former veterinarian turned color commentator. Dee Dee provides expert analysis on running form, tail aerodynamics, and pre-race snack choices. Her catchphrase "That's a GOOD BOY!" has been trademarked.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Broadcast Ticker -->
+  <div class="bg-ketchup py-3 overflow-hidden">
+    <div class="ticker-track flex whitespace-nowrap">
+      <div class="flex gap-8 px-4 items-center">
+        <span class="font-bebas text-white text-lg">&#9733; BREAKING: MEATBALL CLOCKS 4.2 SEC PERSONAL BEST</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#127830; SPAGHETTI JONES SIGNS 3-TREAT EXTENSION</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#128293; RALPHIE EJECTED FOR EXCESSIVE BARKING (AGAIN)</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#128081; PRINCESS FANNY REFUSES TO RACE WITHOUT RED CARPET</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#128168; TURBO BISCUIT: "I'LL SLEEP WHEN I LOSE" -- HAS NOT LOST</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#10024; LADY WIGGLESWORTH WIGGLE COUNT REACHES SEASON HIGH: 847</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#127942; WIENERDOME SELLOUT STREAK HITS 42 EVENTS</span>
+        <span class="text-white/50">|</span>
+      </div>
+      <div class="flex gap-8 px-4 items-center">
+        <span class="font-bebas text-white text-lg">&#9733; BREAKING: MEATBALL CLOCKS 4.2 SEC PERSONAL BEST</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#127830; SPAGHETTI JONES SIGNS 3-TREAT EXTENSION</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#128293; RALPHIE EJECTED FOR EXCESSIVE BARKING (AGAIN)</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#128081; PRINCESS FANNY REFUSES TO RACE WITHOUT RED CARPET</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#128168; TURBO BISCUIT: "I'LL SLEEP WHEN I LOSE" -- HAS NOT LOST</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#10024; LADY WIGGLESWORTH WIGGLE COUNT REACHES SEASON HIGH: 847</span>
+        <span class="text-white/50">|</span>
+        <span class="font-bebas text-white text-lg">&#127942; WIENERDOME SELLOUT STREAK HITS 42 EVENTS</span>
+        <span class="text-white/50">|</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WIENERDOME / EVENTS ==================== -->
+<section id="wienerdome" class="py-24 relative overflow-hidden" style="background: linear-gradient(180deg, #2D6A4F 0%, #1B4332 100%);">
+  <!-- Subtle texture -->
+  <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle, rgba(254,250,224,0.3) 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 relative z-10">
+    <div class="text-center mb-16">
+      <p class="font-bangers text-mustard text-xl tracking-wider mb-2" data-aos="fade-up">THE VENUE</p>
+      <h2 class="font-bebas text-6xl md:text-8xl text-cream" data-aos="fade-up" data-aos-delay="100">THE <span class="text-mustard">WIENERDOME</span></h2>
+      <p class="text-cream/60 text-lg mt-4 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Where legends are born and treats are earned. The Wienerdome is a state-of-the-art entertainment experience unlike anything in sports.</p>
+    </div>
+
+    <!-- Feature grid -->
+    <div class="grid md:grid-cols-3 gap-8 mb-20">
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-8 text-center border border-white/10" data-aos="fade-up" data-aos-delay="0">
+        <div class="text-5xl mb-4">&#127939;</div>
+        <h3 class="font-bebas text-3xl text-mustard mb-3">THE TRACK</h3>
+        <p class="text-cream/70 text-sm">50 yards of premium AstroTurf with LED lane markers, instant replay screens, and a finish line that shoots confetti. The fastest 5 seconds in sports.</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-8 text-center border border-white/10" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-5xl mb-4">&#127881;</div>
+        <h3 class="font-bebas text-3xl text-mustard mb-3">THE RITUAL</h3>
+        <p class="text-cream/70 text-sm">Every event opens with the sacred "Release the Wieners!" ceremony. 5,000 fans chanting in unison. Smoke machines. Dramatic lighting. Pure magic.</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-8 text-center border border-white/10" data-aos="fade-up" data-aos-delay="200">
+        <div class="text-5xl mb-4">&#128087;</div>
+        <h3 class="font-bebas text-3xl text-mustard mb-3">THE FASHION</h3>
+        <p class="text-cream/70 text-sm">Hot dog costumes are encouraged. Mustard suits are respected. The "Best in Stands" competition is fiercer than the races themselves.</p>
+      </div>
+    </div>
+
+    <!-- Race Animation -->
+    <div class="bg-charcoal/50 rounded-2xl p-8 border border-cream/10" data-aos="fade-up">
+      <h3 class="font-bangers text-2xl text-mustard text-center mb-6 tracking-wider">LIVE RACE SIMULATION</h3>
+      <div id="raceTrack" class="relative space-y-4">
+        <!-- Lane 1 -->
+        <div class="relative h-16 bg-stadium/30 rounded-lg overflow-hidden border border-cream/10">
+          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-cream/40">LANE 1</div>
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-mustard/30"></div>
+          <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="1">
+            <svg class="w-16 h-10" viewBox="0 0 80 40" fill="#E63946">
+              <ellipse cx="50" cy="20" rx="20" ry="10"/><ellipse cx="25" cy="18" rx="12" ry="8"/><circle cx="14" cy="12" r="7"/>
+              <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
+              <rect x="20" y="26" width="3" height="9" rx="1.5"/><rect x="32" y="26" width="3" height="9" rx="1.5"/>
+              <rect x="44" y="26" width="3" height="9" rx="1.5"/><rect x="56" y="26" width="3" height="9" rx="1.5"/>
+              <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
+            </svg>
+            <span class="absolute -top-5 left-0 font-bangers text-xs text-ketchup whitespace-nowrap">MEATBALL</span>
+          </div>
+        </div>
+        <!-- Lane 2 -->
+        <div class="relative h-16 bg-stadium/30 rounded-lg overflow-hidden border border-cream/10">
+          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-cream/40">LANE 2</div>
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-mustard/30"></div>
+          <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="2">
+            <svg class="w-16 h-10" viewBox="0 0 80 40" fill="#F5A623">
+              <ellipse cx="50" cy="20" rx="20" ry="10"/><ellipse cx="25" cy="18" rx="12" ry="8"/><circle cx="14" cy="12" r="7"/>
+              <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
+              <rect x="20" y="26" width="3" height="9" rx="1.5"/><rect x="32" y="26" width="3" height="9" rx="1.5"/>
+              <rect x="44" y="26" width="3" height="9" rx="1.5"/><rect x="56" y="26" width="3" height="9" rx="1.5"/>
+              <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
+            </svg>
+            <span class="absolute -top-5 left-0 font-bangers text-xs text-mustard whitespace-nowrap">SPAGHETTI</span>
+          </div>
+        </div>
+        <!-- Lane 3 -->
+        <div class="relative h-16 bg-stadium/30 rounded-lg overflow-hidden border border-cream/10">
+          <div class="absolute left-2 top-1/2 -translate-y-1/2 text-xs font-bold text-cream/40">LANE 3</div>
+          <div class="absolute right-2 top-1/2 -translate-y-1/2 w-1 h-12 bg-mustard/30"></div>
+          <div class="race-dog absolute top-1/2 -translate-y-1/2" style="left: 5%;" data-speed="3">
+            <svg class="w-16 h-10" viewBox="0 0 80 40" fill="#8B6914">
+              <ellipse cx="50" cy="20" rx="20" ry="10"/><ellipse cx="25" cy="18" rx="12" ry="8"/><circle cx="14" cy="12" r="7"/>
+              <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
+              <rect x="20" y="26" width="3" height="9" rx="1.5"/><rect x="32" y="26" width="3" height="9" rx="1.5"/>
+              <rect x="44" y="26" width="3" height="9" rx="1.5"/><rect x="56" y="26" width="3" height="9" rx="1.5"/>
+              <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
+            </svg>
+            <span class="absolute -top-5 left-0 font-bangers text-xs text-yellow-200 whitespace-nowrap">TURBO</span>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-6">
+        <button id="raceBtn" class="bg-mustard text-charcoal font-bebas text-xl px-8 py-3 rounded-lg hover:bg-yellow-400 transition tracking-wider">START RACE!</button>
+        <p id="raceResult" class="font-bangers text-2xl text-mustard mt-4 hidden"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FAN CULTURE ==================== -->
+<section id="fans" class="py-24 bg-charcoal relative">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="font-bangers text-ketchup text-xl tracking-wider mb-2" data-aos="fade-up">JOIN THE PACK</p>
+      <h2 class="font-bebas text-6xl md:text-8xl text-cream" data-aos="fade-up" data-aos-delay="100">FAN <span class="text-mustard">CULTURE</span></h2>
+      <p class="text-cream/50 text-lg mt-4 max-w-xl mx-auto" data-aos="fade-up" data-aos-delay="200">Our fans don't just watch. They participate. They dress up. They chant. They take a sacred oath.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 mb-16">
+      <!-- Release the Wieners -->
+      <div class="bg-gradient-to-b from-ketchup/20 to-transparent rounded-2xl p-8 border border-ketchup/20" data-aos="fade-up">
+        <div class="text-5xl mb-4">&#128227;</div>
+        <h3 class="font-bebas text-3xl text-ketchup mb-3">"RELEASE THE WIENERS!"</h3>
+        <p class="text-cream/70 text-sm leading-relaxed">The sacred pre-race chant. When 5,000 fans scream it in unison, the energy is primal. Security guards have been known to tear up. It's that powerful.</p>
+      </div>
+
+      <!-- Fan Fashion -->
+      <div class="bg-gradient-to-b from-mustard/20 to-transparent rounded-2xl p-8 border border-mustard/20" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-5xl mb-4">&#127861;</div>
+        <h3 class="font-bebas text-3xl text-mustard mb-3">FAN FASHION</h3>
+        <p class="text-cream/70 text-sm leading-relaxed">Hot dog suits. Ketchup capes. Mustard-yellow tuxedos. Our fans transform every event into a costume extravaganza that puts Halloween to shame.</p>
+      </div>
+
+      <!-- Best in Stands -->
+      <div class="bg-gradient-to-b from-stadium/30 to-transparent rounded-2xl p-8 border border-stadium/30" data-aos="fade-up" data-aos-delay="200">
+        <div class="text-5xl mb-4">&#127942;</div>
+        <h3 class="font-bebas text-3xl text-stadium mb-3">BEST IN STANDS</h3>
+        <p class="text-cream/70 text-sm leading-relaxed">Every event features a fan costume competition. Past winners include "Condiment Couple," "The Human Hot Dog," and an entire family dressed as a dachshund.</p>
+      </div>
+    </div>
+
+    <!-- Fan Oath -->
+    <div class="max-w-3xl mx-auto" data-aos="zoom-in">
+      <div class="relative bg-cream/5 rounded-2xl p-10 md:p-14 border-2 border-mustard/30 text-center" style="background-image: radial-gradient(circle at 50% 50%, rgba(245,166,35,0.05), transparent 70%);">
+        <!-- Corner decorations -->
+        <div class="absolute top-4 left-4 text-mustard/30 text-2xl">&#9733;</div>
+        <div class="absolute top-4 right-4 text-mustard/30 text-2xl">&#9733;</div>
+        <div class="absolute bottom-4 left-4 text-mustard/30 text-2xl">&#9733;</div>
+        <div class="absolute bottom-4 right-4 text-mustard/30 text-2xl">&#9733;</div>
+
+        <p class="font-bangers text-mustard text-xl tracking-widest mb-4">THE OFFICIAL</p>
+        <h3 class="font-bebas text-5xl md:text-6xl text-cream mb-8">FAN OATH</h3>
+        <div class="text-cream/80 text-lg md:text-xl leading-relaxed font-inter italic space-y-4">
+          <p>"I solemnly swear to cheer for the sausage,</p>
+          <p>to honor the waddle and respect the dash.</p>
+          <p>I will wear mustard yellow with pride,</p>
+          <p>and never question why grown adults</p>
+          <p>scream at racing dachshunds.</p>
+          <p>For I am a Wiener Fan,</p>
+          <p>and this is the way."</p>
+        </div>
+        <div class="mt-8 w-32 h-0.5 bg-mustard/30 mx-auto"></div>
+        <p class="font-bangers text-cream/40 text-sm mt-4 tracking-widest">THE WIENER LEAGUE &bull; EST. 2021</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PARTNERS ==================== -->
+<section id="partners" class="py-24 relative" style="background: linear-gradient(180deg, #1a1a1a 0%, #1D1D1D 100%);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="font-bangers text-stadium text-xl tracking-wider mb-2" data-aos="fade-up">BUSINESS</p>
+      <h2 class="font-bebas text-6xl md:text-8xl text-cream" data-aos="fade-up" data-aos-delay="100">PARTNER <span class="text-mustard">WITH US</span></h2>
+      <p class="text-cream/50 text-lg mt-4 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">The Wiener League is a multi-platform entertainment brand with proven revenue streams and an audience that's growing faster than a dachshund chasing a squirrel.</p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-16">
+      <div class="bg-cream/5 rounded-2xl p-6 text-center border border-cream/10 hover:border-mustard/30 transition" data-aos="fade-up" data-aos-delay="0">
+        <div class="text-4xl mb-3">&#128250;</div>
+        <h4 class="font-bebas text-xl text-mustard">MEDIA</h4>
+        <p class="text-cream/50 text-xs mt-2">Broadcast rights & content licensing</p>
+      </div>
+      <div class="bg-cream/5 rounded-2xl p-6 text-center border border-cream/10 hover:border-mustard/30 transition" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-4xl mb-3">&#129309;</div>
+        <h4 class="font-bebas text-xl text-mustard">SPONSORS</h4>
+        <p class="text-cream/50 text-xs mt-2">Brand partnerships & activations</p>
+      </div>
+      <div class="bg-cream/5 rounded-2xl p-6 text-center border border-cream/10 hover:border-mustard/30 transition" data-aos="fade-up" data-aos-delay="200">
+        <div class="text-4xl mb-3">&#128085;</div>
+        <h4 class="font-bebas text-xl text-mustard">MERCH</h4>
+        <p class="text-cream/50 text-xs mt-2">Apparel, collectibles & fan gear</p>
+      </div>
+      <div class="bg-cream/5 rounded-2xl p-6 text-center border border-cream/10 hover:border-mustard/30 transition" data-aos="fade-up" data-aos-delay="300">
+        <div class="text-4xl mb-3">&#127915;</div>
+        <h4 class="font-bebas text-xl text-mustard">EVENTS</h4>
+        <p class="text-cream/50 text-xs mt-2">Live entertainment & touring</p>
+      </div>
+      <div class="bg-cream/5 rounded-2xl p-6 text-center border border-cream/10 hover:border-mustard/30 transition col-span-2 md:col-span-1" data-aos="fade-up" data-aos-delay="400">
+        <div class="text-4xl mb-3">&#127918;</div>
+        <h4 class="font-bebas text-xl text-mustard">GAMING</h4>
+        <p class="text-cream/50 text-xs mt-2">Digital experiences & interactive</p>
+      </div>
+    </div>
+
+    <div class="text-center" data-aos="fade-up">
+      <a href="mailto:partners@wienerleague.com" class="inline-block bg-mustard text-charcoal font-bebas text-2xl px-12 py-4 rounded-lg hover:bg-yellow-400 transition tracking-wider">BECOME A PARTNER</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ANIMAL WELFARE ==================== -->
+<section id="welfare" class="py-24 relative" style="background: linear-gradient(180deg, #2D6A4F 0%, #1B4332 100%);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16">
+      <p class="font-bangers text-cream text-xl tracking-wider mb-2" data-aos="fade-up">OUR PROMISE</p>
+      <h2 class="font-bebas text-6xl md:text-8xl text-cream" data-aos="fade-up" data-aos-delay="100">ANIMAL <span class="text-mustard">WELFARE</span></h2>
+      <p class="text-cream/60 text-lg mt-4 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">Behind the spectacle is a serious commitment. Every athlete in the Wiener League is a beloved family pet first, a competitor second.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/10" data-aos="fade-up">
+        <div class="text-4xl mb-4">&#128154;</div>
+        <h3 class="font-bebas text-2xl text-cream mb-3">VET-SUPERVISED</h3>
+        <p class="text-cream/70 text-sm leading-relaxed">Licensed veterinarians are present at every event. All athletes receive pre-race health checks and post-race wellness assessments. No exceptions.</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/10" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-4xl mb-4">&#128062;</div>
+        <h3 class="font-bebas text-2xl text-cream mb-3">VOLUNTARY PARTICIPATION</h3>
+        <p class="text-cream/70 text-sm leading-relaxed">Dogs race because they want to. If a dachshund doesn't feel like running, they don't run. Some of our most famous moments are dogs sitting down mid-race.</p>
+      </div>
+      <div class="bg-white/10 backdrop-blur rounded-2xl p-8 border border-white/10" data-aos="fade-up" data-aos-delay="200">
+        <div class="text-4xl mb-4">&#127968;</div>
+        <h3 class="font-bebas text-2xl text-cream mb-3">RESCUE PARTNERSHIPS</h3>
+        <p class="text-cream/70 text-sm leading-relaxed">We partner with dachshund rescue organizations nationwide. A portion of every ticket sold goes directly to supporting dachshund rescue and adoption programs.</p>
+      </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto text-center bg-white/5 rounded-2xl p-8 border border-white/10" data-aos="fade-up">
+      <p class="text-cream/80 text-lg italic leading-relaxed">"The Wiener League exists because we love these dogs. Every decision we make starts with one question: Is this good for the wieners? If the answer isn't yes, we don't do it."</p>
+      <p class="font-bebas text-mustard text-xl mt-4">-- THE WIENER LEAGUE FOUNDING CHARTER</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer id="tickets" class="relative pt-24 pb-8 bg-charcoal overflow-hidden">
+  <!-- Email signup -->
+  <div class="max-w-3xl mx-auto px-6 text-center mb-20">
+    <h2 class="font-bebas text-5xl md:text-7xl text-cream mb-4" data-aos="fade-up">NEVER MISS A <span class="text-mustard">RACE</span></h2>
+    <p class="text-cream/50 text-lg mb-8" data-aos="fade-up" data-aos-delay="100">Join the pack. Get exclusive updates, pre-sale access, and behind-the-scenes content delivered straight to your inbox.</p>
+    <form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto" data-aos="fade-up" data-aos-delay="200" onsubmit="event.preventDefault(); this.innerHTML='<p class=\'font-bebas text-3xl text-mustard py-3\'>WELCOME TO THE PACK! &#127881;</p>';">
+      <input type="email" placeholder="YOUR EMAIL ADDRESS" required class="flex-1 bg-cream/10 border border-cream/20 rounded-lg px-6 py-4 text-cream placeholder-cream/30 font-inter focus:outline-none focus:border-mustard transition">
+      <button type="submit" class="bg-ketchup text-white font-bebas text-xl px-8 py-4 rounded-lg hover:bg-red-500 transition tracking-wider whitespace-nowrap">JOIN THE PACK</button>
+    </form>
+  </div>
+
+  <!-- Footer links -->
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+      <div>
+        <h4 class="font-bebas text-xl text-mustard mb-4">LEAGUE</h4>
+        <ul class="space-y-2 text-sm text-cream/50">
+          <li><a href="#about" class="hover:text-mustard transition">About</a></li>
+          <li><a href="#athletes" class="hover:text-mustard transition">Athletes</a></li>
+          <li><a href="#wienerdome" class="hover:text-mustard transition">Events</a></li>
+          <li><a href="#broadcast" class="hover:text-mustard transition">Broadcast</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bebas text-xl text-mustard mb-4">FANS</h4>
+        <ul class="space-y-2 text-sm text-cream/50">
+          <li><a href="#fans" class="hover:text-mustard transition">Fan Culture</a></li>
+          <li><a href="#" class="hover:text-mustard transition">Merch Store</a></li>
+          <li><a href="#" class="hover:text-mustard transition">Fan Club</a></li>
+          <li><a href="#" class="hover:text-mustard transition">Newsletter</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bebas text-xl text-mustard mb-4">BUSINESS</h4>
+        <ul class="space-y-2 text-sm text-cream/50">
+          <li><a href="#partners" class="hover:text-mustard transition">Partners</a></li>
+          <li><a href="#" class="hover:text-mustard transition">Sponsorships</a></li>
+          <li><a href="#" class="hover:text-mustard transition">Media Kit</a></li>
+          <li><a href="#" class="hover:text-mustard transition">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bebas text-xl text-mustard mb-4">FOLLOW</h4>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 hover:bg-mustard hover:text-charcoal transition" aria-label="Instagram">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 hover:bg-mustard hover:text-charcoal transition" aria-label="TikTok">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13a8.28 8.28 0 005.58 2.17V11.7a4.83 4.83 0 01-3.77-1.24V6.69h3.77z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 hover:bg-mustard hover:text-charcoal transition" aria-label="YouTube">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full bg-cream/10 flex items-center justify-center text-cream/50 hover:bg-mustard hover:text-charcoal transition" aria-label="X/Twitter">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-t border-cream/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-cream/30 text-sm">&copy; 2026 The Wiener League. All rights reserved. Short Legs. Big Dreams.&trade;</p>
+      <div class="flex gap-6 text-cream/30 text-sm">
+        <a href="#" class="hover:text-mustard transition">Privacy Policy</a>
+        <a href="#" class="hover:text-mustard transition">Terms of Service</a>
+        <a href="#welfare" class="hover:text-mustard transition">Animal Welfare</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Running dachshund at bottom -->
+  <div class="relative h-12 mt-8">
+    <div class="footer-dog absolute bottom-0">
+      <svg class="w-20 h-10" viewBox="0 0 80 40" fill="#F5A623">
+        <ellipse cx="50" cy="20" rx="20" ry="10"/>
+        <ellipse cx="25" cy="18" rx="12" ry="8"/>
+        <circle cx="14" cy="12" r="7"/>
+        <ellipse cx="11" cy="9" rx="3" ry="5" transform="rotate(-15 11 9)"/>
+        <rect x="20" y="26" width="3" height="9" rx="1.5"/>
+        <rect x="32" y="26" width="3" height="9" rx="1.5"/>
+        <rect x="44" y="26" width="3" height="9" rx="1.5"/>
+        <rect x="56" y="26" width="3" height="9" rx="1.5"/>
+        <path d="M70 16 Q78 10 76 4" stroke="#F5A623" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="12" cy="11" r="1.5" fill="#1D1D1D"/>
+      </svg>
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// Initialize AOS
+AOS.init({
+  duration: 800,
+  easing: 'ease-out-cubic',
+  once: true,
+  offset: 80
+});
+
+// Mobile menu toggle
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('mobileMenu').classList.toggle('hidden');
+});
+
+// Close mobile menu on link click
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.add('hidden');
+  });
+});
+
+// Sticky nav on scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 80) {
+    navbar.classList.add('nav-scrolled');
+  } else {
+    navbar.classList.remove('nav-scrolled');
+  }
+});
+
+// Parallax hero
+const heroBg = document.querySelector('.hero-bg');
+window.addEventListener('scroll', () => {
+  if (window.scrollY < window.innerHeight) {
+    heroBg.style.transform = `translateY(${window.scrollY * 0.3}px)`;
+  }
+});
+
+// Countdown timer - next event set to ~30 days from now
+function updateCountdown() {
+  const now = new Date();
+  // Set target to next month, 15th
+  const target = new Date(now.getFullYear(), now.getMonth() + 1, 15, 19, 0, 0);
+  const diff = target - now;
+
+  if (diff <= 0) return;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+  document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+  document.getElementById('cd-mins').textContent = String(mins).padStart(2, '0');
+  document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// Animated counters
+const counters = document.querySelectorAll('.counter');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.getAttribute('data-target'));
+      let current = 0;
+      const step = Math.max(1, Math.floor(target / 40));
+      const timer = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(timer);
+        }
+        el.textContent = current;
+      }, 40);
+      counterObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+
+counters.forEach(c => counterObserver.observe(c));
+
+// Race animation
+const raceBtn = document.getElementById('raceBtn');
+const raceResult = document.getElementById('raceResult');
+const raceDogs = document.querySelectorAll('.race-dog');
+const dogNames = ['MEATBALL', 'SPAGHETTI', 'TURBO'];
+let raceRunning = false;
+
+raceBtn.addEventListener('click', () => {
+  if (raceRunning) return;
+  raceRunning = true;
+  raceBtn.disabled = true;
+  raceBtn.textContent = 'RACING...';
+  raceResult.classList.add('hidden');
+
+  // Reset positions
+  raceDogs.forEach(dog => { dog.style.left = '5%'; dog.style.transition = 'none'; });
+
+  // Random speeds for each dog
+  const speeds = [
+    2 + Math.random() * 2,
+    2 + Math.random() * 2,
+    2 + Math.random() * 2
+  ];
+
+  // Assign random finish times
+  const durations = speeds.map(s => s * 1000);
+
+  setTimeout(() => {
+    raceDogs.forEach((dog, i) => {
+      dog.style.transition = `left ${durations[i]}ms cubic-bezier(0.25, 0.46, 0.45, 0.94)`;
+      dog.style.left = '85%';
+    });
+
+    // Determine winner
+    const minDuration = Math.min(...durations);
+    const winnerIndex = durations.indexOf(minDuration);
+    const maxDuration = Math.max(...durations);
+
+    setTimeout(() => {
+      raceResult.textContent = `${dogNames[winnerIndex]} WINS! 🏆`;
+      raceResult.classList.remove('hidden');
+      raceBtn.textContent = 'RACE AGAIN!';
+      raceBtn.disabled = false;
+      raceRunning = false;
+    }, maxDuration + 200);
+  }, 100);
+});
+
+// Progress bar animation on scroll
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => { bar.style.width = width; }, 100);
+      });
+      progressObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.dog-card').forEach(card => progressObserver.observe(card));
+</script>
+</body>
+</html>
