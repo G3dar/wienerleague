@@ -362,8 +362,13 @@ body::after {
    ============================ */
 @media (max-width: 768px) {
   .slide-id { display: none; }
+  .slide-ct { bottom: 0.75rem; right: 0.75rem; }
   .hud-frame::before, .hud-frame::after,
   .hud-inner::before, .hud-inner::after { width: 12px; height: 12px; }
+  .slide { min-height: 100svh; }
+}
+@media (max-width: 480px) {
+  .slide > div { padding-left: 1rem !important; padding-right: 1rem !important; }
 }
 </style>
 </head>
@@ -398,14 +403,14 @@ body::after {
 
   <div class="relative z-10 max-w-4xl mx-auto px-6">
     <!-- Confidential -->
-    <div class="flex items-center justify-center gap-3 mb-10 reveal">
+    <div class="flex items-center justify-center gap-3 mb-6 md:mb-10 reveal">
       <div class="h-px w-8 bg-ketchup/50"></div>
       <span class="font-mono text-ketchup text-base tracking-[0.4em] uppercase">Confidential</span>
       <div class="h-px w-8 bg-ketchup/50"></div>
     </div>
 
     <!-- Logo mark -->
-    <div class="flex justify-center mb-6 reveal reveal-d1">
+    <div class="flex justify-center mb-4 md:mb-6 reveal reveal-d1">
       <svg class="w-14 h-8" viewBox="0 0 80 40" fill="#F5A623">
         <ellipse cx="55" cy="22" rx="22" ry="12"/><ellipse cx="28" cy="20" rx="14" ry="10"/>
         <circle cx="15" cy="14" r="8"/><ellipse cx="12" cy="12" rx="3" ry="5" transform="rotate(-20 12 12)"/>
@@ -424,9 +429,9 @@ body::after {
       </h1>
     </div>
 
-    <div class="flex items-center justify-center gap-4 mt-6 mb-8 reveal reveal-d3">
+    <div class="flex items-center justify-center gap-4 mt-4 md:mt-6 mb-6 md:mb-8 reveal reveal-d3">
       <div class="h-px flex-1 max-w-[80px] bg-mustard/20"></div>
-      <span class="font-mono text-cream/30 text-base tracking-[0.3em]">PARTNERSHIP OPPORTUNITY</span>
+      <span class="font-mono text-cream/30 text-sm md:text-base tracking-[0.2em] md:tracking-[0.3em]">PARTNERSHIP OPPORTUNITY</span>
       <div class="h-px flex-1 max-w-[80px] bg-mustard/20"></div>
     </div>
 
@@ -604,7 +609,7 @@ body::after {
     </div>
 
     <!-- 5-column grid — equal weight, maximum impact -->
-    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 reveal reveal-d2">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3 reveal reveal-d2">
       <!-- 01 -->
       <div class="group relative p-5 md:p-6 rounded-sm overflow-hidden transition-all duration-300" style="background: linear-gradient(165deg, rgba(245,166,35,0.08) 0%, rgba(245,166,35,0.02) 100%); border: 1px solid rgba(245,166,35,0.12);">
         <div class="font-bebas text-mustard/20 leading-none absolute -top-2 -right-1 select-none" style="font-size: clamp(4.5rem, 7vw, 7rem);">01</div>
@@ -642,7 +647,7 @@ body::after {
         </div>
       </div>
       <!-- 05 -->
-      <div class="group relative p-5 md:p-6 rounded-sm overflow-hidden col-span-2 md:col-span-1 transition-all duration-300" style="background: linear-gradient(165deg, rgba(230,57,70,0.10) 0%, rgba(230,57,70,0.02) 100%); border: 1px solid rgba(230,57,70,0.15);">
+      <div class="group relative p-5 md:p-6 rounded-sm overflow-hidden sm:col-span-2 md:col-span-1 transition-all duration-300" style="background: linear-gradient(165deg, rgba(230,57,70,0.10) 0%, rgba(230,57,70,0.02) 100%); border: 1px solid rgba(230,57,70,0.15);">
         <div class="font-bebas text-ketchup/20 leading-none absolute -top-2 -right-1 select-none" style="font-size: clamp(4.5rem, 7vw, 7rem);">05</div>
         <div class="relative z-10">
           <div class="w-8 h-1 bg-ketchup mb-4 rounded-full"></div>
