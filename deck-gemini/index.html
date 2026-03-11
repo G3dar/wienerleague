@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>The Wiener League | Gemini Edition</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        mustard: '#F5A623',
+        ketchup: '#E63946',
+        stadium: '#2D6A4F',
+        charcoal: '#050505',
+        cream: '#FEFAE0',
+        vegasPink: '#FF0055',
+        vegasCyan: '#00F5FF',
+      },
+      fontFamily: {
+        bebas: ['Bebas Neue', 'sans-serif'],
+        bangers: ['Bangers', 'cursive'],
+        syne: ['Syne', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
+        marker: ['Permanent Marker', 'cursive'],
+      },
+      animation: {
+        'float': 'float 6s ease-in-out infinite',
+        'bark': 'bark 0.3s ease-in-out',
+        'ticker': 'ticker 30s linear infinite',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+        bark: {
+          '0%, 100%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(1.2) rotate(5deg)' },
+        },
+        ticker: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        }
+      }
+    }
+  }
+}
+</script>
+<style>
+/* ============================
+   BASE
+   ============================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Syne', sans-serif;
+  background: #050505;
+  color: #FEFAE0;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ============================
+   SCROLL-SNAP DECK
+   ============================ */
+.deck {
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+}
+.deck::-webkit-scrollbar { display: none; }
+.slide {
+  min-height: 100vh;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================
+   GRAIN & SCANLINES
+   ============================ */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+}
+
+/* ============================
+   HUD COMPONENTS
+   ============================ */
+.hud-border {
+  border: 1px solid rgba(245,166,35,0.2);
+  background: rgba(14,14,14,0.4);
+  backdrop-filter: blur(10px);
+}
+
+.news-ticker {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: #E63946;
+  color: white;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Space Mono', monospace;
+  font-weight: bold;
+}
+
+/* ============================
+   REVEAL SYSTEM
+   ============================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.shown {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ============================
+   DACHSHUND DECOR
+   ============================ */
+.bone-float {
+  position: absolute;
+  opacity: 0.05;
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+/* ============================
+   GLOW EFFECTS
+   ============================ */
+.glow-text {
+  text-shadow: 0 0 10px rgba(245,166,35,0.5), 0 0 20px rgba(245,166,35,0.3);
+}
+.neon-pink {
+  text-shadow: 0 0 10px rgba(255,0,85,0.8), 0 0 20px rgba(255,0,85,0.5);
+}
+
+/* ============================
+   CHARACTER PROFILE CARDS
+   ============================ */
+.profile-card {
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.profile-card:hover {
+  transform: rotateY(10deg) rotateX(5deg) scale(1.02);
+}
+
+.stat-bar-outer {
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.stat-bar-inner {
+  height: 100%;
+  background: linear-gradient(90deg, #F5A623, #FF0055);
+  transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 0;
+}
+.shown .stat-bar-inner { width: var(--stat-val); }
+
+/* ============================
+   SCANDAL STAMP
+   ============================ */
+.scandal-stamp {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: 4px solid #FF0055;
+  color: #FF0055;
+  font-family: 'Bangers', cursive;
+  padding: 5px 15px;
+  transform: rotate(15deg);
+  opacity: 0.8;
+  z-index: 10;
+  background: rgba(5,5,5,0.8);
+}
+</style>
+</head>
+<body class="scanlines">
+
+<!-- Navigation / Progress -->
+<div class="fixed top-0 left-0 w-full h-1 z-[210] flex gap-1 px-4 pt-4">
+  <div class="h-1 flex-1 bg-white/10 rounded-full overflow-hidden">
+    <div id="progress-bar" class="h-full bg-mustard w-0 transition-all duration-300"></div>
+  </div>
+</div>
+
+<!-- NEWS TICKER -->
+<div class="news-ticker">
+  <div class="bg-black px-4 h-full flex items-center z-10">
+    <span class="text-white">BREAKING NEWS</span>
+  </div>
+  <div class="flex whitespace-nowrap animate-ticker">
+    <span class="px-8">LUNA EXTENDS DOMINANT SEASON WITH ANOTHER PODIUM FINISH...</span>
+    <span class="px-8">ROOKIE PEANUT STUNS FIELD WITH BREAKOUT PERFORMANCE (BRIEFLY STOPPED FOR A LEAF)...</span>
+    <span class="px-8">FRANK SUSPENDED FOR UNSPORTSMANLIKE BARKING OVER A PRETZEL...</span>
+    <span class="px-8">WIFDA WORLD CHAMPIONSHIPS SET FOR LAS VEGAS SEPT 27...</span>
+    <span class="px-8">LUNA SEEN LEAVING SAHARA HOTEL AT 2:30 AM WITH UNKNOWN GERMAN SHEPHERD...</span>
+  </div>
+</div>
+
+<!-- ==================== DECK ==================== -->
+<div class="deck" id="deck">
+
+  <!-- SLIDE 00: INTRO -->
+  <section class="slide items-center justify-center bg-charcoal">
+    <!-- Huge background number -->
+    <div class="absolute inset-0 flex items-center justify-center opacity-[0.02] pointer-events-none">
+      <h1 class="font-bebas text-[80vw] leading-none">00</h1>
+    </div>
+
+    <!-- Floating Dachshund Silhouettes -->
+    <svg class="bone-float top-[20%] left-[10%] w-32 h-32" viewBox="0 0 80 40" fill="currentColor">
+      <ellipse cx="55" cy="22" rx="22" ry="12"/><ellipse cx="28" cy="20" rx="14" ry="10"/><circle cx="15" cy="14" r="8"/>
+      <ellipse cx="12" cy="12" rx="3" ry="5" transform="rotate(-20 12 12)"/>
+    </svg>
+    <svg class="bone-float bottom-[20%] right-[10%] w-48 h-48 delay-700" viewBox="0 0 80 40" fill="currentColor">
+      <ellipse cx="55" cy="22" rx="22" ry="12"/><ellipse cx="28" cy="20" rx="14" ry="10"/><circle cx="15" cy="14" r="8"/>
+      <ellipse cx="12" cy="12" rx="3" ry="5" transform="rotate(-20 12 12)"/>
+    </svg>
+
+    <div class="relative z-10 text-center px-6">
+      <div class="reveal mb-6">
+        <span class="font-mono text-mustard tracking-[0.5em] text-sm md:text-base border-y border-mustard/30 py-2 px-8">WIFDA WORLD FEDERATION</span>
+      </div>
+      
+      <h1 class="font-bebas leading-[0.8] mb-4 reveal" style="font-size: clamp(4rem, 15vw, 12rem);">
+        <span class="text-cream">THE WIENER</span><br>
+        <span class="text-mustard glow-text">LEAGUE</span>
+      </h1>
+
+      <div class="flex items-center justify-center gap-4 reveal">
+        <div class="h-[2px] w-12 bg-vegasPink"></div>
+        <span class="font-marker text-vegasPink text-2xl md:text-4xl -rotate-2">GEMINI EDITION</span>
+        <div class="h-[2px] w-12 bg-vegasPink"></div>
+      </div>
+
+      <p class="font-syne text-cream/40 text-lg md:text-2xl mt-8 max-w-2xl mx-auto leading-relaxed reveal">
+        High Stakes. Short Legs. <span class="text-mustard">Genuine Chaos.</span>
+      </p>
+
+      <div class="mt-12 reveal">
+        <div class="inline-block p-1 rounded-full bg-gradient-to-r from-mustard via-vegasPink to-vegasCyan animate-pulse">
+           <button class="bg-charcoal px-10 py-4 rounded-full font-bebas text-2xl tracking-widest hover:bg-transparent transition-colors">
+             SCROLL TO ENTER THE KENNEL
+           </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Decorative corners -->
+    <div class="absolute top-8 left-8 w-24 h-24 border-t-2 border-l-2 border-mustard/20 pointer-events-none"></div>
+    <div class="absolute bottom-16 right-8 w-24 h-24 border-b-2 border-r-2 border-mustard/20 pointer-events-none"></div>
+  </section>
+
+  <!-- SLIDE 01: THE LUNA EFFECT -->
+  <section class="slide flex-row">
+    <div class="w-full md:w-1/2 h-[50vh] md:h-full relative overflow-hidden">
+      <img src="../wifda-news/images/luna-superstar-BINdb4JY.jpg" alt="Luna Superstar" class="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700">
+      <div class="absolute inset-0 bg-gradient-to-r from-charcoal via-transparent to-transparent md:block hidden"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent md:hidden"></div>
+      <div class="scandal-stamp reveal">MOST WANTED</div>
+    </div>
+    
+    <div class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 bg-charcoal">
+      <div class="max-w-xl">
+        <div class="flex items-center gap-4 mb-6 reveal">
+          <span class="bg-vegasPink text-white font-mono text-xs px-2 py-1">SCANDAL ALERT</span>
+          <div class="h-px flex-1 bg-vegasPink/20"></div>
+        </div>
+        
+        <h2 class="font-bebas text-7xl md:text-9xl text-cream leading-none mb-6 reveal">
+          THE <span class="text-mustard">LUNA</span> EFFECT
+        </h2>
+        
+        <p class="font-syne text-cream/60 text-lg md:text-xl leading-relaxed mb-8 reveal">
+          She's the "fit bitch from Vegas" everyone is talking about. Whether she's closing 30 yards in record time or exiting the Sahara at 3 AM with a German Shepherd, Luna is the undisputed Queen of the circuit.
+        </p>
+
+        <div class="space-y-6 reveal">
+          <div class="stat-group">
+            <div class="flex justify-between font-mono text-sm mb-2">
+              <span class="text-mustard">SPEED</span>
+              <span class="text-mustard">99.8%</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="--stat-val: 99.8%"></div></div>
+          </div>
+          <div class="stat-group">
+            <div class="flex justify-between font-mono text-sm mb-2">
+              <span class="text-vegasPink">SCANDAL SCORE</span>
+              <span class="text-vegasPink">OFF THE CHARTS</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="--stat-val: 100%"></div></div>
+          </div>
+          <div class="stat-group">
+            <div class="flex justify-between font-mono text-sm mb-2">
+              <span class="text-vegasCyan">CROWD VOLUME</span>
+              <span class="text-vegasCyan">115 dB</span>
+            </div>
+            <div class="stat-bar-outer"><div class="stat-bar-inner" style="--stat-val: 95%"></div></div>
+          </div>
+        </div>
+
+        <div class="mt-10 p-6 hud-border reveal">
+          <p class="font-mono text-sm text-vegasCyan italic">
+            "If Luna stays locked in, everyone else is racing for second." 
+            <br>— WIFDA Official
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 02: THE INCIDENTS -->
+  <section class="slide bg-charcoal p-8 md:p-16">
+    <div class="max-w-7xl mx-auto w-full h-full flex flex-col">
+      <div class="mb-12">
+        <h2 class="font-bebas text-6xl md:text-8xl text-cream reveal">FIELD <span class="text-ketchup">INCIDENTS</span> & DISCIPLINE</h2>
+        <p class="font-mono text-cream/40 tracking-widest reveal">WIENER LEAGUE CASE FILES 2026</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 flex-1">
+        <!-- Peanut's Leaf -->
+        <div class="hud-border p-8 flex flex-col reveal">
+          <div class="relative h-64 mb-6 overflow-hidden rounded">
+             <img src="../wifda-news/images/peanut-breakout-1bTRzQBg.jpg" alt="Peanut" class="w-full h-full object-cover">
+             <div class="absolute inset-0 bg-vegasCyan/10 mix-blend-overlay"></div>
+             <div class="absolute bottom-4 left-4 bg-black/80 px-4 py-2 font-mono text-vegasCyan text-xs">
+               SUBJECT: PEANUT // ROOKIE
+             </div>
+          </div>
+          <h3 class="font-bebas text-4xl text-vegasCyan mb-4">THE LEAF INCIDENT</h3>
+          <p class="font-syne text-cream/50 text-lg flex-1">
+            During qualifying, Peanut recorded the fastest 15-yard split in league history. He then paused for 4.2 seconds to investigate what officials believe was a "slightly interesting leaf" in lane three. He still finished second.
+          </p>
+          <div class="mt-6 font-mono text-xs text-vegasCyan/40 border-t border-vegasCyan/20 pt-4">
+             TACTICAL ERROR: CURIOSITY // STATUS: UNDER MONITORING
+          </div>
+        </div>
+
+        <!-- Frank's Pretzel -->
+        <div class="hud-border p-8 flex flex-col border-ketchup/40 reveal">
+          <div class="relative h-64 mb-6 overflow-hidden rounded">
+             <img src="../wifda-news/images/frank-suspension-1HbpRHNn.jpg" alt="Frank" class="w-full h-full object-cover">
+             <div class="absolute inset-0 bg-ketchup/20 mix-blend-overlay"></div>
+             <div class="absolute bottom-4 left-4 bg-black/80 px-4 py-2 font-mono text-ketchup text-xs">
+               SUBJECT: FRANK // THE ENFORCER
+             </div>
+             <div class="absolute top-4 right-4 bg-ketchup text-white px-3 py-1 font-bebas text-xl rotate-12">
+               SUSPENDED
+             </div>
+          </div>
+          <h3 class="font-bebas text-4xl text-ketchup mb-4">THE PRETZEL INCIDENT</h3>
+          <p class="font-syne text-cream/50 text-lg flex-1">
+            Veteran Frank halted his run to aggressively bark at a fan in row one. Investigations confirmed the fan was holding a soft pretzel. Frank has shown zero remorse. "He was asking for it," a source close to Frank said.
+          </p>
+          <div class="mt-6 font-mono text-xs text-ketchup/40 border-t border-ketchup/20 pt-4">
+             VIOLATION: UNSPORTSMANLIKE BARKING // STATUS: 1-HEAT BAN
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 03: THE ROSTER (THE PACK) -->
+  <section class="slide bg-charcoal p-8 md:p-16">
+    <div class="max-w-7xl mx-auto w-full h-full flex flex-col">
+      <div class="mb-12 text-center md:text-left">
+        <h2 class="font-bebas text-6xl md:text-8xl text-cream reveal">THE <span class="text-vegasCyan">PACK</span></h2>
+        <p class="font-mono text-cream/40 tracking-widest reveal">QUALIFIED ATHLETES // 2026 SEASON</p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 flex-1">
+        <!-- Pepper -->
+        <div class="profile-card hud-border p-4 flex flex-col items-center text-center reveal">
+           <div class="w-full aspect-square mb-4 overflow-hidden rounded-full border-4 border-mustard/20">
+             <img src="../wifda-news/images/luna-rivalry-DHcONkLY.jpg" alt="Pepper" class="w-full h-full object-cover">
+           </div>
+           <h4 class="font-bebas text-3xl text-mustard">PEPPER</h4>
+           <p class="font-marker text-vegasPink text-sm mb-2">"The Rival"</p>
+           <p class="font-syne text-xs text-cream/40 leading-tight">Hates losing. Once bit a trophy. Speed: 96%.</p>
+        </div>
+        
+        <!-- Meatball -->
+        <div class="profile-card hud-border p-4 flex flex-col items-center text-center reveal delay-100">
+           <div class="w-full aspect-square mb-4 overflow-hidden rounded-full border-4 border-vegasPink/20 flex items-center justify-center bg-black">
+             <span class="text-6xl md:text-8xl">🍖</span>
+           </div>
+           <h4 class="font-bebas text-3xl text-vegasPink">MEATBALL</h4>
+           <p class="font-marker text-vegasCyan text-sm mb-2">"The Tank"</p>
+           <p class="font-syne text-xs text-cream/40 leading-tight">Shaped like a football. Runs like a boulder. 100% Good Boy.</p>
+        </div>
+
+        <!-- Princess Fanny -->
+        <div class="profile-card hud-border p-4 flex flex-col items-center text-center reveal delay-200">
+           <div class="w-full aspect-square mb-4 overflow-hidden rounded-full border-4 border-vegasCyan/20 flex items-center justify-center bg-black">
+             <span class="text-6xl md:text-8xl">👑</span>
+           </div>
+           <h4 class="font-bebas text-3xl text-vegasCyan">PRINCESS FANNY</h4>
+           <p class="font-marker text-mustard text-sm mb-2">"The Diva"</p>
+           <p class="font-syne text-xs text-cream/40 leading-tight">Refuses to run if the vibes are off. Requires satin bedding.</p>
+        </div>
+
+        <!-- Ralphie -->
+        <div class="profile-card hud-border p-4 flex flex-col items-center text-center reveal delay-300">
+           <div class="w-full aspect-square mb-4 overflow-hidden rounded-full border-4 border-white/20 flex items-center justify-center bg-black">
+             <span class="text-6xl md:text-8xl">🔥</span>
+           </div>
+           <h4 class="font-bebas text-3xl text-cream">RALPHIE</h4>
+           <p class="font-marker text-ketchup text-sm mb-2">"The Wildcard"</p>
+           <p class="font-syne text-xs text-cream/40 leading-tight">Nobody knows his next move. Once fought a speaker.</p>
+        </div>
+      </div>
+      
+      <div class="mt-12 text-center reveal">
+        <button onclick="bark()" class="bg-mustard text-black font-bebas text-xl px-8 py-3 rounded-full hover:scale-110 transition-transform active:scale-95">
+          CLICK TO BARK AT THE PACK
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 04: THE SUMMIT -->
+  <section class="slide flex-row-reverse">
+    <div class="w-full md:w-1/2 h-[40vh] md:h-full relative overflow-hidden">
+      <img src="../wifda-news/images/luna-sahara-Nqud69eQ.jpg" alt="Vegas Night" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-l from-charcoal via-transparent to-transparent"></div>
+      
+      <!-- Animated Neon Sign -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-4 border-vegasPink p-8 rotate-[-10deg] animate-pulse">
+        <h3 class="font-bebas text-6xl md:text-8xl text-vegasPink neon-pink">WIENER<br>SUMMIT</h3>
+        <p class="font-marker text-vegasCyan text-2xl">LAS VEGAS 2026</p>
+      </div>
+    </div>
+
+    <div class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 bg-charcoal">
+      <div class="max-w-xl">
+        <div class="flex items-center gap-4 mb-6 reveal">
+          <span class="bg-vegasCyan text-black font-mono text-xs px-2 py-1 font-bold">THE EVENT</span>
+          <div class="h-px flex-1 bg-vegasCyan/20"></div>
+        </div>
+        
+        <h2 class="font-bebas text-7xl md:text-9xl text-cream leading-[0.85] mb-6 reveal">
+          NOT JUST A RACE. <span class="text-vegasCyan">A SUMMIT.</span>
+        </h2>
+        
+        <div class="space-y-6 reveal">
+          <p class="font-syne text-cream/50 text-lg md:text-xl leading-relaxed">
+            Ten thousand fans. 64 elite athletes. One champion. The Wiener Summit at <span class="text-mustard">Oktoberfest DTLV</span> is the Super Bowl of short legs.
+          </p>
+          
+          <ul class="font-mono text-sm md:text-base space-y-4 text-vegasCyan">
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-vegasCyan rounded-full animate-ping"></span>
+              PAW-PRINT AUTOGRAPH SESSIONS
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-vegasCyan rounded-full animate-ping delay-75"></span>
+              LIVE MULTI-CAM BROADCAST
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-vegasCyan rounded-full animate-ping delay-150"></span>
+              THE "NO PRETZEL" VIP LOUNGE
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="w-2 h-2 bg-vegasCyan rounded-full animate-ping delay-300"></span>
+              EXCLUSIVE MERCH DROPS
+            </li>
+          </ul>
+        </div>
+
+        <div class="mt-12 flex gap-4 reveal">
+           <div class="hud-border p-4 flex-1 text-center">
+             <div class="font-bebas text-4xl text-mustard">SEPT 27</div>
+             <div class="font-mono text-[10px] text-cream/40">WORLD CHAMPIONSHIP</div>
+           </div>
+           <div class="hud-border p-4 flex-1 text-center border-vegasPink/40">
+             <div class="font-bebas text-4xl text-vegasPink">10,000+</div>
+             <div class="font-mono text-[10px] text-cream/40">EXPECTED CROWD</div>
+           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 05: PARTNERSHIP -->
+  <section class="slide bg-charcoal p-8 md:p-16">
+    <div class="max-w-7xl mx-auto w-full h-full flex flex-col justify-center">
+      <div class="mb-12 text-center">
+        <h2 class="font-bebas text-7xl md:text-9xl text-cream reveal">ADOPT A <span class="text-mustard glow-text">WIENER</span></h2>
+        <p class="font-mono text-cream/40 tracking-[0.5em] reveal">SPONSORSHIP TIERS // JOIN THE PACK</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Tier 1 -->
+        <div class="hud-border p-8 border-t-4 border-t-vegasCyan/50 reveal">
+          <div class="font-mono text-xs text-vegasCyan mb-4">LEVEL: KENNEL CLUB</div>
+          <h3 class="font-bebas text-5xl text-cream mb-2">$5K</h3>
+          <p class="font-syne text-cream/40 mb-8 h-24">Entry-level branding. Social mentions. 10 VIP tickets. Perfect for local legends.</p>
+          <ul class="font-mono text-xs space-y-2 text-vegasCyan/60">
+            <li>+ LOGO ON TRACK SIDE</li>
+            <li>+ WEBSITE INCLUSION</li>
+            <li>+ DIGITAL ASSET PACK</li>
+          </ul>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="hud-border p-8 border-t-4 border-t-mustard bg-mustard/[0.02] relative reveal delay-100">
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-mustard text-black font-bebas px-4 py-1 text-sm">MOST POPULAR</div>
+          <div class="font-mono text-xs text-mustard mb-4">LEVEL: DOG SPONSOR</div>
+          <h3 class="font-bebas text-5xl text-cream mb-2">$15K</h3>
+          <p class="font-syne text-cream/60 mb-8 h-24">Own a dog's season. Your logo on a racing jersey. Co-branded content with an athlete.</p>
+          <ul class="font-mono text-xs space-y-2 text-mustard/60">
+            <li>+ JERSEY BRANDING</li>
+            <li>+ HANDLER MEET-AND-GREET</li>
+            <li>+ 20 VIP TICKETS</li>
+          </ul>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="hud-border p-8 border-t-4 border-t-vegasPink/50 reveal delay-200">
+          <div class="font-mono text-xs text-vegasPink mb-4">LEVEL: ALPHA DOG</div>
+          <h3 class="font-bebas text-5xl text-cream mb-2">$50K</h3>
+          <p class="font-syne text-cream/40 mb-8 h-24">Title naming rights. Full broadcast integration. The whole stadium hears your name.</p>
+          <ul class="font-mono text-xs space-y-2 text-vegasPink/60">
+            <li>+ TITLE NAMING RIGHTS</li>
+            <li>+ BROADCAST LOWER-THIRDS</li>
+            <li>+ 50 VIP TICKETS</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 06: CONTACT -->
+  <section class="slide items-center justify-center bg-charcoal">
+    <div class="text-center relative z-10 px-6">
+      <div class="reveal mb-8">
+        <h2 class="font-bebas text-8xl md:text-[12rem] text-cream leading-none mb-4">LET'S <span class="text-mustard glow-text animate-pulse">BARK.</span></h2>
+        <p class="font-marker text-vegasPink text-3xl md:text-5xl -rotate-2">DON'T MISS THE GATE.</p>
+      </div>
+
+      <div class="hud-border p-8 md:p-12 max-w-2xl mx-auto reveal">
+        <div class="space-y-6 font-mono text-lg md:text-2xl">
+          <p class="flex justify-between border-b border-white/10 pb-4">
+            <span class="text-mustard">EMAIL</span>
+            <span class="text-cream">partners@wienerleague.com</span>
+          </p>
+          <p class="flex justify-between border-b border-white/10 pb-4">
+            <span class="text-mustard">CONTACT</span>
+            <span class="text-cream">Steve Papageorge</span>
+          </p>
+          <p class="flex justify-between">
+            <span class="text-mustard">PROD</span>
+            <span class="text-cream">3dar / Genuine Overkill / Dan Hill</span>
+          </p>
+        </div>
+        
+        <div class="mt-12">
+          <a href="mailto:partners@wienerleague.com" class="inline-block bg-vegasPink text-white font-bebas text-3xl px-12 py-5 tracking-widest hover:bg-vegasCyan hover:text-black transition-all transform hover:scale-110 active:scale-95">
+            BECOME A PARTNER
+          </a>
+        </div>
+      </div>
+      
+      <div class="mt-16 reveal">
+         <p class="font-mono text-xs text-cream/20 tracking-[0.4em]">WIENERLEAGUE.COM // © 2026 // ALL RIGHTS RESERVED</p>
+      </div>
+    </div>
+
+    <!-- Floating Background Text -->
+    <div class="absolute inset-0 flex flex-col justify-between py-20 pointer-events-none opacity-[0.03] font-bebas text-9xl">
+      <div class="whitespace-nowrap -ml-20">DACHSHUND DACHSHUND DACHSHUND</div>
+      <div class="whitespace-nowrap -mr-20 text-right">WIENER LEAGUE WIENER LEAGUE</div>
+      <div class="whitespace-nowrap -ml-40">OKTOBERFEST OKTOBERFEST</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// Bark Effect
+function bark() {
+  const overlay = document.createElement('div');
+  overlay.className = 'fixed inset-0 z-[300] flex items-center justify-center pointer-events-none';
+  overlay.innerHTML = `<h1 class="font-bangers text-[20vw] text-vegasPink animate-bark">BARK!</h1>`;
+  document.body.appendChild(overlay);
+  setTimeout(() => overlay.remove(), 400);
+  
+  // Audio placeholder if needed, but visual is enough for now
+}
+// Reveal System
+const deck = document.getElementById('deck');
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('shown');
+    }
+  });
+}, { root: deck, threshold: 0.1 });
+
+reveals.forEach(el => observer.observe(el));
+
+// Progress Bar
+deck.addEventListener('scroll', () => {
+  const scrollPct = (deck.scrollTop / (deck.scrollHeight - deck.clientHeight)) * 100;
+  document.getElementById('progress-bar').style.width = scrollPct + '%';
+});
+
+// Keyboard Navigation
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === ' ') {
+    deck.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+  } else if (e.key === 'ArrowUp') {
+    deck.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+  }
+});
+</script>
+</body>
+</html>
